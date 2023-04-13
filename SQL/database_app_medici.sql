@@ -31,7 +31,7 @@ CREATE TABLE indirizzo(
     id_indirizzo    BIGINT          NOT NULL,
     via             VARCHAR(100)    NOT NULL,
     cap             CHAR(5)         NOT NULL,
-    cittÃ            VARCHAR(30)     NOT NULL,
+    città           VARCHAR(30)     NOT NULL,
     provincia       CHAR(2)         NOT NULL,
     nazione         VARCHAR(30)     NOT NULL,
 
@@ -67,6 +67,8 @@ CREATE TABLE medico
 (
 	id_medico           BIGINT          NOT NULL,
     id_indirizzo        BIGINT          NOT NULL,
+    username            VARCHAR(30)     NOT NULL,
+    password            VARCHAR(30)     NOT NULL,
     visita              visita          NOT NULL,
     id_fatturazione     BIGINT,
 
