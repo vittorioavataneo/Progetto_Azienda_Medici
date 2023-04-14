@@ -3,6 +3,7 @@ package org.generation.italy.Progetto_Azienda_Medici.model.entities;
 import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
@@ -11,6 +12,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "persona")
 @Getter
 @Setter
+@NoArgsConstructor
 public abstract class Person {
     @Id
     @GeneratedValue(generator = "persona_generator", strategy = GenerationType.SEQUENCE)
