@@ -27,10 +27,10 @@ public class Doctor extends Person{
     @Column(name = "fatturazione")
     private boolean billing;
 
-    public Doctor(long id, String firstname, String lastname, String cellNumber,
-                  String email, Sex sex, String username, String password,
+    public Doctor(long id, String firstname, String lastname, Sex sex, String cellNumber,
+                  String email, String username, String password,
                   Address address, Examination examination, boolean billing) {
-        super(id, firstname, lastname, cellNumber, email, sex);
+        super(id, firstname, lastname, sex, cellNumber, email);
         this.username = username;
         this.password = password;
         this.address = address;

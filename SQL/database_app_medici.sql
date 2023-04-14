@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS persona, indirizzo, fatturazione, medico, paziente;
-DROP TYPE IF EXISTS sesso, visita, contatto, pacchetto, pagamento;
+DROP TABLE IF EXISTS persona, indirizzo, medico, paziente;
+DROP TYPE IF EXISTS sesso, visita, contatto, pacchetto, pagamento, stato;
 
 
 --TYPE ENUM
@@ -14,14 +14,14 @@ CREATE TYPE stato                   AS ENUM('DA_PROGRAMMARE', 'PROGRAMMATO', 'FA
 --TABLE
 --Tabella persona
 CREATE TABLE persona (
-  id_persona        BIGINT          NOT NULL,
-  nome              VARCHAR(50)     NOT NULL,
-  cognome           VARCHAR(50)     NOT NULL,
-  telefono          VARCHAR(20),
-  email             VARCHAR(100)    NOT NULL,
-  sesso             sesso           NOT NULL,
+      id_persona        BIGINT          NOT NULL,
+      nome              VARCHAR(50)     NOT NULL,
+      cognome           VARCHAR(50)     NOT NULL,
+      telefono          VARCHAR(20),
+      email             VARCHAR(100)    NOT NULL,
+      sesso             sesso           NOT NULL,
 
-  CONSTRAINT PK_persona PRIMARY KEY(id_persona)
+      CONSTRAINT PK_persona PRIMARY KEY(id_persona)
 );
 CREATE SEQUENCE persona_sequence
   start 1

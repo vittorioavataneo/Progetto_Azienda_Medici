@@ -18,7 +18,6 @@ public class Address {
     private long id;
     @Column(name = "via")
     private String street;
-
     private String cap;
     @Column(name = "città")
     private String city;

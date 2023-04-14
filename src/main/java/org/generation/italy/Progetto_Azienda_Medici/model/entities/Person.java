@@ -23,20 +23,21 @@ public abstract class Person {
     protected String firstname;
     @Column(name = "cognome")
     protected String lastname;
-    @Column(name = "telefono")
-    protected String cellNumber;
-    protected String email;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "sesso")
     @Type(PostgreSQLEnumType.class)
     protected Sex sex;
+    @Column(name = "telefono")
+    protected String cellNumber;
+    protected String email;
 
-    public Person(long id, String firstname, String lastname, String cellNumber, String email, Sex sex) {
+    public Person(long id, String firstname, String lastname, Sex sex, String cellNumber, String email) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.sex = sex;
         this.cellNumber = cellNumber;
         this.email = email;
-        this.sex = sex;
+
     }
 }
