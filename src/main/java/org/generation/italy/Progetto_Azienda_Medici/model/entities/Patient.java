@@ -17,9 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Patient extends Person{
 
-    @ManyToOne //@OneToOne
-    @JoinColumn(name = "id_fatturazione")
-    private Billing billing;
     @ManyToOne //forse @ManyToMany
     @JoinColumn(name = "id_medico")
     private Doctor doctor;
@@ -44,13 +41,18 @@ public class Patient extends Person{
     private String note;
     @Column(name = "note_pagamento")
     private String paymentNote;
+    @Column(name = "fatturazione")
+    private boolean billing;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "stato")
+    @Type(PostgreSQLEnumType.class)
+    public State state;
 
     public Patient(long id, String firstname, String lastname, String cellNumber, String email,
-                   Sex sex, Billing billing, Doctor doctor, LocalDate reservationDate,
+                   Sex sex, Doctor doctor, LocalDate reservationDate,
                    Contact contact, Examination examination, Payment payment,
-                   ExaminationPackage examinationPackage, String note, String paymentNote) {
+                   ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
         super(id, firstname, lastname, cellNumber, email, sex);
-        this.billing = billing;
         this.doctor = doctor;
         this.reservationDate = reservationDate;
         this.contact = contact;
@@ -59,5 +61,7 @@ public class Patient extends Person{
         this.examinationPackage = examinationPackage;
         this.note = note;
         this.paymentNote = paymentNote;
+        this.billing = billing;
+        this.state = state;
     }
 }

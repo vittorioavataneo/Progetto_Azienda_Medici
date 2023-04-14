@@ -24,13 +24,12 @@ public class Doctor extends Person{
     @Column(columnDefinition = "visita")
     @Type(PostgreSQLEnumType.class)
     private Examination examination;
-    @ManyToOne
-    @JoinColumn(name = "id_fatturazione")
-    private Billing billing;
+    @Column(name = "fatturazione")
+    private boolean billing;
 
     public Doctor(long id, String firstname, String lastname, String cellNumber,
                   String email, Sex sex, String username, String password,
-                  Address address, Examination examination, Billing billing) {
+                  Address address, Examination examination, boolean billing) {
         super(id, firstname, lastname, cellNumber, email, sex);
         this.username = username;
         this.password = password;
