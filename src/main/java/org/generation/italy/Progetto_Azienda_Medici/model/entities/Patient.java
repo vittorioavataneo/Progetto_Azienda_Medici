@@ -23,13 +23,12 @@ public class Patient extends Person{
     @Column(name = "data_prenotazione")
     private LocalDate reservationDate;
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "contatto")
+    @Column(columnDefinition = "tipo_di_contatto")
     @Type(PostgreSQLEnumType.class)
     private Contact contact;
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "visita")
-    @Type(PostgreSQLEnumType.class)
-    private Examination examination;
+    @ManyToOne
+    @JoinColumn(name = "id_visita_specialistica")
+    private Specialization specialization;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "pagamento")
     @Type(PostgreSQLEnumType.class)
@@ -49,13 +48,13 @@ public class Patient extends Person{
     public State state;
 
     public Patient(long id, String firstname, String lastname, Sex sex, String cellNumber, String email, Doctor doctor, LocalDate reservationDate,
-                   Contact contact, Examination examination, Payment payment,
+                   Contact contact, Specialization specialization, Payment payment,
                    ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
         super(id, firstname, lastname, sex, cellNumber, email);
         this.doctor = doctor;
         this.reservationDate = reservationDate;
         this.contact = contact;
-        this.examination = examination;
+        this.specialization = specialization;
         this.payment = payment;
         this.examinationPackage = examinationPackage;
         this.note = note;

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Examination;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
+import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
 
 @Getter
 @Setter
@@ -13,17 +13,18 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 public class DoctorDto extends PersonDto{
 
     private String username;
+    private String password;
     private AddressDto address;
-    private Examination examination;
+    private Specialization specialization;
     private boolean billing;
 
     public DoctorDto(long id, String firstname, String lastname, String cellNumber,
                      String email, Sex sex, String username, AddressDto address,
-                     Examination examination, boolean billing) {
+                     Specialization specialization, boolean billing) {
         super(id, firstname, lastname, sex, cellNumber, email);
         this.username = username;
         this.address = address;
-        this.examination = examination;
+        this.specialization = specialization;
         this.billing = billing;
     }
 
@@ -37,7 +38,7 @@ public class DoctorDto extends PersonDto{
                 doctor.getSex(),
                 doctor.getUsername(),
                 AddressDto.fromAddress(doctor.getAddress()),
-                doctor.getExamination(),
+                doctor.getSpecialization(),
                 doctor.isBilling()
         );
     }
@@ -51,9 +52,9 @@ public class DoctorDto extends PersonDto{
                 this.getCellNumber(),
                 this.getEmail(),
                 this.getUsername(),
-                null, // La password non viene fornita dal DTO per questioni di privacy ma da rivedere
+                this.getPassword(),
                 this.getAddress().toAddress(),
-                this.getExamination(),
+                this.getSpecialization(),
                 this.isBilling()
         );
     }

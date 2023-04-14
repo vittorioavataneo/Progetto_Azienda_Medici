@@ -3,8 +3,8 @@ package org.generation.italy.Progetto_Azienda_Medici.model.services.implementati
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.DoctorRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.PatientRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Examination;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
+import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class StandardDidacticService implements AbstractDidacticService {
         return doctorRepo.findByName(part);
     }
     @Override
-    public Iterable<Doctor> findDoctorByExamination(Examination examination) {
-        return doctorRepo.findByExamination(examination);
+    public Iterable<Doctor> findDoctorBySpecialization(String part) {
+        return doctorRepo.findBySpecialization(part);
     }
 
     //PATIENT

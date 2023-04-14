@@ -14,7 +14,7 @@ public class PatientDto extends PersonDto{
     private DoctorDto doctor;
     private LocalDate reservationDate;
     private Contact contact;
-    private Examination examination;
+    private Specialization specialization;
     private Payment payment;
     private ExaminationPackage examinationPackage;
     private String note;
@@ -23,13 +23,13 @@ public class PatientDto extends PersonDto{
     private State state;
 
     public PatientDto(long id, String firstname, String lastname, Sex sex, String cellNumber, String email, DoctorDto doctor,
-                      LocalDate reservationDate, Contact contact, Examination examination, Payment payment,
+                      LocalDate reservationDate, Contact contact, Specialization specialization, Payment payment,
                       ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
         super(id, firstname, lastname, sex, cellNumber, email);
         this.doctor = doctor;
         this.reservationDate = reservationDate;
         this.contact = contact;
-        this.examination = examination;
+        this.specialization = specialization;
         this.payment = payment;
         this.examinationPackage = examinationPackage;
         this.note = note;
@@ -49,7 +49,7 @@ public class PatientDto extends PersonDto{
                 DoctorDto.fromDoctor(patient.getDoctor()),
                 patient.getReservationDate(),
                 patient.getContact(),
-                patient.getExamination(),
+                patient.getSpecialization(),
                 patient.getPayment(),
                 patient.getExaminationPackage(),
                 patient.getNote(),
@@ -69,7 +69,7 @@ public class PatientDto extends PersonDto{
                 this.getDoctor().toDoctor(),
                 this.getReservationDate(),
                 this.getContact(),
-                this.getExamination(),
+                this.getSpecialization(),
                 this.getPayment(),
                 this.getExaminationPackage(),
                 this.getNote(),
