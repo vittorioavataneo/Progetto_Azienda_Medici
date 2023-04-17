@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StandardDidacticService implements AbstractDidacticService {
+public class StandardDidacticService implements AbstractDidacticService{
 
     private DoctorRepository doctorRepo;
     private PatientRepository patientRepo;
@@ -36,4 +36,5 @@ public class StandardDidacticService implements AbstractDidacticService {
     public Iterable<Patient> findPatientByName(String part) {
         return patientRepo.findByName(part);
     }
+
 }

@@ -5,7 +5,8 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specializatio
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface DoctorRepository extends JpaRepository<Doctor, Long> {
+public interface DoctorRepository extends GenericRepository<Doctor> {
+
     @Query("""
             select d
             from Doctor d
