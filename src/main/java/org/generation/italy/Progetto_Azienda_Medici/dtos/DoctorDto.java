@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
 
 @Getter
 @Setter
@@ -15,12 +14,12 @@ public class DoctorDto extends PersonDto{
     private String username;
     private String password;
     private AddressDto address;
-    private Specialization specialization;
+    private SpecializationDto specialization;
     private boolean billing;
 
     public DoctorDto(long id, String firstname, String lastname, String cellNumber,
                      String email, Sex sex, String username, AddressDto address,
-                     Specialization specialization, boolean billing) {
+                     SpecializationDto specialization, boolean billing) {
         super(id, firstname, lastname, sex, cellNumber, email);
         this.username = username;
         this.address = address;
@@ -38,7 +37,7 @@ public class DoctorDto extends PersonDto{
                 doctor.getSex(),
                 doctor.getUsername(),
                 AddressDto.fromAddress(doctor.getAddress()),
-                doctor.getSpecialization(),
+                SpecializationDto.fromSpecialization(doctor.getSpecialization()),
                 doctor.isBilling()
         );
     }
@@ -54,7 +53,7 @@ public class DoctorDto extends PersonDto{
                 this.getUsername(),
                 this.getPassword(),
                 this.getAddress().toAddress(),
-                this.getSpecialization(),
+                this.getSpecialization().toSpecialization(),
                 this.isBilling()
         );
     }

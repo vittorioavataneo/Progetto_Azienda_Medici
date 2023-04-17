@@ -14,7 +14,7 @@ public class PatientDto extends PersonDto{
     private DoctorDto doctor;
     private LocalDate reservationDate;
     private Contact contact;
-    private Specialization specialization;
+    private SpecializationDto specialization;
     private Payment payment;
     private ExaminationPackage examinationPackage;
     private String note;
@@ -23,7 +23,7 @@ public class PatientDto extends PersonDto{
     private State state;
 
     public PatientDto(long id, String firstname, String lastname, Sex sex, String cellNumber, String email, DoctorDto doctor,
-                      LocalDate reservationDate, Contact contact, Specialization specialization, Payment payment,
+                      LocalDate reservationDate, Contact contact, SpecializationDto specialization, Payment payment,
                       ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
         super(id, firstname, lastname, sex, cellNumber, email);
         this.doctor = doctor;
@@ -49,7 +49,7 @@ public class PatientDto extends PersonDto{
                 DoctorDto.fromDoctor(patient.getDoctor()),
                 patient.getReservationDate(),
                 patient.getContact(),
-                patient.getSpecialization(),
+                SpecializationDto.fromSpecialization(patient.getSpecialization()),
                 patient.getPayment(),
                 patient.getExaminationPackage(),
                 patient.getNote(),
@@ -69,7 +69,7 @@ public class PatientDto extends PersonDto{
                 this.getDoctor().toDoctor(),
                 this.getReservationDate(),
                 this.getContact(),
-                this.getSpecialization(),
+                this.getSpecialization().toSpecialization(),
                 this.getPayment(),
                 this.getExaminationPackage(),
                 this.getNote(),

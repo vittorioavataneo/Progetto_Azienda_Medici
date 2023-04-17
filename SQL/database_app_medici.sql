@@ -36,7 +36,7 @@ CREATE TABLE visita_specialistica(
     CONSTRAINT PK_visita_specialistica PRIMARY KEY(id_visita_specialistica)
 
 );
-CREATE SEQUENCE _sequence
+CREATE SEQUENCE visita_specialistica_sequence
   start 1
   increment 1
   OWNED BY visita_specialistica.id_visita_specialistica;
