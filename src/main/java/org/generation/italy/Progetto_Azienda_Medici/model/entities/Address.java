@@ -12,9 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Address {
     @Id
-    @GeneratedValue(generator = "address_generator", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "address_generator", sequenceName = "indirizzo_sequence", allocationSize = 1)
-    @Column(name= "id_indirizzo")
+    @GeneratedValue(generator = "indirizzo_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "indirizzo_generator", sequenceName = "indirizzo_sequence", allocationSize = 1)
+    @Column(name = "id_indirizzo")
     private long id;
     @Column(name = "via")
     private String street;

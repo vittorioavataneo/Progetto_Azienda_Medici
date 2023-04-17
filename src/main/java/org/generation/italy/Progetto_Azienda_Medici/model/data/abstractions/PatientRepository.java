@@ -8,7 +8,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     @Query("""
             select p
             from Patient p
-            where p.firstname like :part or p.lastname like: part
+            where p.firstname like %:part% or p.lastname like %:part%
             """)
     Iterable<Patient> findByName(String part);
 

@@ -57,29 +57,28 @@ class DoctorRepositoryTest {
         em.persist(d2);
         em.persist(d3);
 
+        System.out.println(docRepo.findAll());
     }
 
     @AfterEach
     void tearDown() {
-        em.remove(d1);
-        em.remove(d2);
-        em.remove(d3);
-        em.remove(a1);
-        em.remove(s1);
-        em.remove(s2);
+
     }
 
     @Test
     void findByName() {
-        Iterable<Doctor> iterator = docRepo.findByName("Pippo");
+        Iterable<Doctor> iterator = docRepo.findByName("P");
         List<Doctor> result = new ArrayList<>();
         iterator.forEach(result::add);
-        assertEquals(1, result.size());
-        assertEquals("Pippo", result.get(0).getFirstname());
+        assertEquals(2, result.size());
 
     }
 
     @Test
     void findBySpecialization() {
+        Iterable<Doctor> iterator = docRepo.findBySpecialization("o");
+        List<Doctor> result = new ArrayList<>();
+        iterator.forEach(result::add);
+        assertEquals(3, result.size());
     }
 }

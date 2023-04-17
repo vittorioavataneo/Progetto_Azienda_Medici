@@ -76,7 +76,7 @@ CREATE TABLE medico
     CONSTRAINT FK_medico_indirizzo FOREIGN KEY(id_indirizzo)
 		REFERENCES indirizzo(id_indirizzo),
     CONSTRAINT FK_medico_visita_specialistica FOREIGN KEY(id_visita_specialistica)
-            REFERENCES visita_specialistica(id_visita_specialistica)
+        REFERENCES visita_specialistica(id_visita_specialistica)
 
 );
 
