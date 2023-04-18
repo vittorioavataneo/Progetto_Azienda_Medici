@@ -37,7 +37,7 @@ class DoctorRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        a1 = new Address(0, "Via le mani dal culo 5", "10133",
+        a1 = new Address(0, "Via Milano 5", "10133",
                 "Milano", "MI", "Italy");
         s1 = new Specialization(0, "Psicologo");
         s2 = new Specialization(0, "Urologo");

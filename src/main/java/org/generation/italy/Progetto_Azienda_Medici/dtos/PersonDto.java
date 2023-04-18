@@ -19,12 +19,12 @@ public abstract class PersonDto {
     protected String firstname;
     protected String lastname;
     protected String dob;
-    protected Sex sex;
+    protected String sex;
     protected String cellNumber;
     protected String email;
 
     public PersonDto(long id, String firstname, String lastname, String dob,
-                     Sex sex, String cellNumber, String email) {
+                     String sex, String cellNumber, String email) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;

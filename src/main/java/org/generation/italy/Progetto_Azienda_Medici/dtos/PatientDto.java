@@ -7,7 +7,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 
 import java.time.LocalDate;
 
-import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromJSONString;
+import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
 @Getter
 @Setter
@@ -15,18 +15,18 @@ import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtili
 public class PatientDto extends PersonDto{
     private DoctorDto doctor;
     private String reservationDate;
-    private Contact contact;
+    private String contact;
     private SpecializationDto specialization;
-    private Payment payment;
-    private ExaminationPackage examinationPackage;
+    private String payment;
+    private String examinationPackage;
     private String note;
     private String paymentNote;
     private boolean billing;
-    private State state;
+    private String state;
 
-    public PatientDto(long id, String firstname, String lastname, String dob, Sex sex, String cellNumber, String email, DoctorDto doctor,
-                      String reservationDate, Contact contact, SpecializationDto specialization, Payment payment,
-                      ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
+    public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber, String email, DoctorDto doctor,
+                      String reservationDate, String contact, SpecializationDto specialization, String payment,
+                      String examinationPackage, String note, String paymentNote, boolean billing, String state) {
         super(id, firstname, lastname, String.valueOf(dob), sex, cellNumber, email);
         this.doctor = doctor;
         this.reservationDate = reservationDate;
@@ -45,20 +45,20 @@ public class PatientDto extends PersonDto{
                 patient.getId(),
                 patient.getFirstname(),
                 patient.getLastname(),
-                patient.getDob() != null ? patient.getDob().toString() : "",
-                patient.getSex(),
+                dateNullController(patient.getDob()),
+                fromEnumToString(patient.getSex()),
                 patient.getCellNumber(),
                 patient.getEmail(),
                 DoctorDto.fromDoctor(patient.getDoctor()),
-                patient.getReservationDate() != null ? patient.getReservationDate().toString() : "",
-                patient.getContact(),
+                dateNullController(patient.getReservationDate()),
+                fromEnumToString(patient.getContact()),
                 SpecializationDto.fromSpecialization(patient.getSpecialization()),
-                patient.getPayment(),
-                patient.getExaminationPackage(),
+                fromEnumToString(patient.getPayment()),
+                fromEnumToString(patient.getExaminationPackage()),
                 patient.getNote(),
                 patient.getPaymentNote(),
                 patient.isBilling(),
-                patient.getState());
+                fromEnumToString(patient.getState()));
     }
 
     public Patient toPatient() {
@@ -67,18 +67,18 @@ public class PatientDto extends PersonDto{
                 this.getFirstname(),
                 this.getLastname(),
                 fromJSONString(this.getDob()),
-                this.getSex(),
+                fromStringToEnum(Sex.class, this.getSex()),
                 this.getCellNumber(),
                 this.getEmail(),
                 this.getDoctor().toDoctor(),
                 fromJSONString(this.getReservationDate()),
-                this.getContact(),
+                fromStringToEnum(Contact.class, this.getContact()),
                 this.getSpecialization().toSpecialization(),
-                this.getPayment(),
-                this.getExaminationPackage(),
+                fromStringToEnum(Payment.class, this.getPayment()),
+                fromStringToEnum(ExaminationPackage.class, this.getExaminationPackage()),
                 this.getNote(),
                 this.getPaymentNote(),
                 this.isBilling(),
-                this.getState());
+                fromStringToEnum(State.class, this.getState()));
     }
 }

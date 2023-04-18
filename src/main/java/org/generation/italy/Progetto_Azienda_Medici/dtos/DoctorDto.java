@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 
-import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromJSONString;
+import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class DoctorDto extends PersonDto{
     private boolean billing;
 
     public DoctorDto(long id, String firstname, String lastname, String dob, String cellNumber,
-                     String email, Sex sex, String username, AddressDto address,
+                     String email, String sex, String username, AddressDto address,
                      SpecializationDto specialization, boolean billing) {
         super(id, firstname, lastname, dob, sex, cellNumber, email);
         this.username = username;
@@ -37,7 +37,7 @@ public class DoctorDto extends PersonDto{
                 doctor.getDob() != null ? doctor.getDob().toString() : "",
                 doctor.getCellNumber(),
                 doctor.getEmail(),
-                doctor.getSex(),
+                fromEnumToString(doctor.getSex()),
                 doctor.getUsername(),
                 AddressDto.fromAddress(doctor.getAddress()),
                 SpecializationDto.fromSpecialization(doctor.getSpecialization()),
@@ -51,7 +51,7 @@ public class DoctorDto extends PersonDto{
                 this.getFirstname(),
                 this.getLastname(),
                 fromJSONString(this.dob),
-                this.getSex(),
+                fromStringToEnum(Sex.class, this.getSex()),
                 this.getCellNumber(),
                 this.getEmail(),
                 this.getUsername(),
