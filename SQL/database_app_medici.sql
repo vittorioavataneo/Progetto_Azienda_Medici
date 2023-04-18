@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS persona, visita_specialistica, indirizzo, medico, paziente;
+DROP TABLE IF EXISTS persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
 DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato;
 
 
@@ -6,7 +6,7 @@ DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato;
 CREATE TYPE sesso					AS ENUM ('UOMO', 'DONNA', 'NON_BINARIO');
 CREATE TYPE tipo_di_contatto		AS ENUM ('INTERVISTA');
 CREATE TYPE pacchetto               AS ENUM ('CORPO_MENTE', 'CORPO', 'MENTE');
-CREATE TYPE pagamento               AS ENUM ('BONIFICO', 'SATISPAY', 'CARTA_DI_CREDITO_O_DEBITO');
+CREATE TYPE pagamento               AS ENUM ('BONIFICO', 'SATISPAY', 'CARTA_DI_CREDITO_O_DEBITO', 'PAYPAL', 'CONTANTI');
 CREATE TYPE stato                   AS ENUM('DA_PROGRAMMARE', 'PROGRAMMATO', 'FATTO', 'ANNULATO');
 
 
@@ -20,6 +20,8 @@ CREATE TABLE persona (
       telefono          VARCHAR(20),
       email             VARCHAR(100)    NOT NULL,
       sesso             sesso           NOT NULL,
+      username          VARCHAR(30)     NOT NULL,
+      password          VARCHAR(500)    NOT NULL,
 
       CONSTRAINT PK_persona PRIMARY KEY(id_persona)
 );
@@ -65,8 +67,7 @@ CREATE TABLE medico
 (
 	id_medico                   BIGINT          NOT NULL,
     id_indirizzo                BIGINT          NOT NULL,
-    username                    VARCHAR(30)     NOT NULL,
-    password                    VARCHAR(500)    NOT NULL,
+    codice_dottore              VARCHAR(500)    NOT NULL,
     id_visita_specialistica     BIGINT          NOT NULL,
     fatturazione                BOOLEAN         NOT NULL,
 
@@ -90,25 +91,12 @@ CREATE SEQUENCE medico_sequence
 --Tabella paziente
 CREATE TABLE paziente(
     id_paziente             BIGINT              NOT NULL,
-    fatturazione            BOOLEAN             NOT NULL,
-    id_medico               BIGINT              NOT NULL,
-    data_prenotazione       DATE                NOT NULL,
-    tipo_di_contatto        tipo_di_contatto    NOT NULL,
-    id_visita_specialistica BIGINT              NOT NULL,
-    pagamento               pagamento           NOT NULL,
-    note_pagamento          VARCHAR(500),
-    pacchetto               pacchetto           NOT NULL,
-    note                    VARCHAR(500),
-    stato                   stato               NOT NULL,
+    codice_fiscale          CHAR(16)            NOT NULL,
 
     CONSTRAINT PK_paziente PRIMARY KEY(id_paziente),
 
     CONSTRAINT FK_paziente_persona FOREIGN KEY(id_paziente)
-		REFERENCES persona(id_persona),
-    CONSTRAINT FK_paziente_medico  FOREIGN KEY(id_medico)
-		REFERENCES medico(id_medico),
-    CONSTRAINT FK_paziente_visita_specialistica FOREIGN KEY(id_visita_specialistica)
-                REFERENCES visita_specialistica(id_visita_specialistica)
+		REFERENCES persona(id_persona)
 
 );
 
@@ -116,3 +104,55 @@ CREATE SEQUENCE id_paziente_sequence
     start 1
     increment 1
     OWNED BY paziente.id_paziente;
+
+
+--Tabella visita_medica
+CREATE TABLE visita_medica(
+
+        id_visita_medica        BIGINT              NOT NULL,
+        fatturazione            BOOLEAN             NOT NULL,
+        id_medico               BIGINT              NOT NULL,
+        id_paziente             BIGINT              NOT NULL,
+        data_prenotazione       DATE                NOT NULL,
+        tipo_di_contatto        tipo_di_contatto    NOT NULL,
+        id_visita_specialistica BIGINT              NOT NULL,
+        pagamento               pagamento           NOT NULL,
+        note_pagamento          VARCHAR(500),
+        pacchetto               pacchetto           NOT NULL,
+        note                    VARCHAR(500),
+        stato                   stato               NOT NULL,
+
+        CONSTRAINT PK_visita_medica PRIMARY KEY(id_visita_medica),
+
+        CONSTRAINT FK_visita_medica_medico  FOREIGN KEY(id_medico)
+            REFERENCES medico(id_medico),
+        CONSTRAINT FK_visita_medica_paziente FOREIGN KEY(id_paziente)
+                    REFERENCES paziente(id_paziente),
+        CONSTRAINT FK_visita_medica_visita_specialistica FOREIGN KEY(id_visita_specialistica)
+                    REFERENCES visita_specialistica(id_visita_specialistica)
+);
+
+CREATE SEQUENCE id_visita_medica_sequence
+    start 1
+    increment 1
+    OWNED BY visita_medica.id_visita_medica;
+
+
+--Tabella admin
+CREATE TABLE admin(
+    id_admin                BIGINT              NOT NULL,
+    codice_admin            VARCHAR(500)        NOT NULL,
+    id_indirizzo            BIGINT              NOT NULL,
+
+    CONSTRAINT PK_admin PRIMARY KEY(id_admin),
+
+    CONSTRAINT FK_admin_persona FOREIGN KEY(id_admin)
+        REFERENCES persona(id_persona),
+    CONSTRAINT FK_admin_indirizzo FOREIGN KEY(id_indirizzo)
+            REFERENCES indirizzo(id_indirizzo)
+);
+
+CREATE SEQUENCE id_admin_sequence
+    start 1
+    increment 1
+    OWNED BY admin.id_admin;

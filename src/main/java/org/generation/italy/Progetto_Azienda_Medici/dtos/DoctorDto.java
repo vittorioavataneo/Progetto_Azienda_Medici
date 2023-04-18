@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
 @Getter
@@ -13,20 +16,22 @@ import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtili
 @NoArgsConstructor
 public class DoctorDto extends PersonDto{
 
-    private String username;
-    private String password;
     private AddressDto address;
+    private String doctorCode;
     private SpecializationDto specialization;
     private boolean billing;
+    private Set<MedicalExaminationDto> medicalExaminationsDto;
 
-    public DoctorDto(long id, String firstname, String lastname, String dob, String cellNumber,
-                     String email, String sex, String username, AddressDto address,
-                     SpecializationDto specialization, boolean billing) {
-        super(id, firstname, lastname, dob, sex, cellNumber, email);
-        this.username = username;
+    public DoctorDto(long id, String firstname, String lastname, String dob, String sex,
+                     String cellNumber, String email, String username, String password,
+                     AddressDto address, String doctorCode, SpecializationDto specialization,
+                     boolean billing, Set<MedicalExaminationDto> medicalExaminationsDto) {
+        super(id, firstname, lastname, dob, sex, cellNumber, email, username, password);
         this.address = address;
+        this.doctorCode = doctorCode;
         this.specialization = specialization;
         this.billing = billing;
+        this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
     public static DoctorDto fromDoctor(Doctor doctor) {
@@ -34,14 +39,20 @@ public class DoctorDto extends PersonDto{
                 doctor.getId(),
                 doctor.getFirstname(),
                 doctor.getLastname(),
-                doctor.getDob() != null ? doctor.getDob().toString() : "",
+                dateNullController(doctor.getDob()),
+                fromEnumToString(doctor.getSex()),
                 doctor.getCellNumber(),
                 doctor.getEmail(),
-                fromEnumToString(doctor.getSex()),
                 doctor.getUsername(),
+                doctor.getPassword(),
                 AddressDto.fromAddress(doctor.getAddress()),
+                doctor.getDoctorCode(),
                 SpecializationDto.fromSpecialization(doctor.getSpecialization()),
-                doctor.isBilling()
+                doctor.isBilling(),
+                doctor.getMedicalExaminations()
+                        .stream()
+                        .map(MedicalExaminationDto::fromMedicalExamination)
+                        .collect(Collectors.toSet())
         );
     }
 
@@ -51,14 +62,19 @@ public class DoctorDto extends PersonDto{
                 this.getFirstname(),
                 this.getLastname(),
                 fromJSONString(this.dob),
-                fromStringToEnum(Sex.class, this.getSex()),
                 this.getCellNumber(),
                 this.getEmail(),
+                fromStringToEnum(Sex.class, this.getSex()),
                 this.getUsername(),
                 this.getPassword(),
                 this.getAddress().toAddress(),
+                this.getDoctorCode(),
                 this.getSpecialization().toSpecialization(),
-                this.isBilling()
+                this.isBilling(),
+                this.getMedicalExaminationsDto()
+                        .stream()
+                        .map(MedicalExaminationDto::toMedicalExamination)
+                        .collect(Collectors.toSet())
         );
     }
 }

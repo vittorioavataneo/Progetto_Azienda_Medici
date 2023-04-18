@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id_medico")
@@ -15,25 +16,39 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Doctor extends Person{
 
-    public String username;
-    public String password;
     @ManyToOne
     @JoinColumn(name = "id_indirizzo")
     private Address address;
+    @Column( name = "codice_dottore")
+    private String doctorCode;
     @ManyToOne
     @JoinColumn(name = "id_visita_specialistica")
     private Specialization specialization;
     @Column(name = "fatturazione")
     private boolean billing;
 
-    public Doctor(long id, String firstname, String lastname, LocalDate dob, Sex sex, String cellNumber,
-                  String email, String username, String password,
-                  Address address, Specialization specialization, boolean billing) {
-        super(id, firstname, lastname, dob, sex, cellNumber, email);
-        this.username = username;
-        this.password = password;
+    private Set<MedicalExamination> medicalExaminations;
+
+    public Doctor(long id, String firstname, String lastname, LocalDate dob,
+                  String cellNumber, String email, Sex sex, String username,
+                  String password, Address address, String doctorCode,
+                  Specialization specialization, boolean billing) {
+        super(id, firstname, lastname, dob, cellNumber, email, sex, username, password);
         this.address = address;
+        this.doctorCode = doctorCode;
         this.specialization = specialization;
         this.billing = billing;
+    }
+
+    public Doctor(long id, String firstname, String lastname, LocalDate dob,
+                  String cellNumber, String email, Sex sex, String username,
+                  String password, Address address, String doctorCode,
+                  Specialization specialization, boolean billing, Set<MedicalExamination> medicalExaminations) {
+        super(id, firstname, lastname, dob, cellNumber, email, sex, username, password);
+        this.address = address;
+        this.doctorCode = doctorCode;
+        this.specialization = specialization;
+        this.billing = billing;
+        this.medicalExaminations = medicalExaminations;
     }
 }

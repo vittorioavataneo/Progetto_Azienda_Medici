@@ -22,9 +22,11 @@ public abstract class PersonDto {
     protected String sex;
     protected String cellNumber;
     protected String email;
+    private String username;
+    private String password;
 
-    public PersonDto(long id, String firstname, String lastname, String dob,
-                     String sex, String cellNumber, String email) {
+    public PersonDto(long id, String firstname, String lastname, String dob, String sex,
+                     String cellNumber, String email, String username, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -32,5 +34,7 @@ public abstract class PersonDto {
         this.sex = sex;
         this.cellNumber = cellNumber;
         this.email = email;
+        this.username = username;
+        this.password = password;
     }
 }

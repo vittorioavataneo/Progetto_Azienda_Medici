@@ -6,38 +6,26 @@ import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import static org.generation.italy.Progetto_Azienda_Medici.dtos.MedicalExaminationDto.*;
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class PatientDto extends PersonDto{
-    private DoctorDto doctor;
-    private String reservationDate;
-    private String contact;
-    private SpecializationDto specialization;
-    private String payment;
-    private String examinationPackage;
-    private String note;
-    private String paymentNote;
-    private boolean billing;
-    private String state;
 
-    public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber, String email, DoctorDto doctor,
-                      String reservationDate, String contact, SpecializationDto specialization, String payment,
-                      String examinationPackage, String note, String paymentNote, boolean billing, String state) {
-        super(id, firstname, lastname, String.valueOf(dob), sex, cellNumber, email);
-        this.doctor = doctor;
-        this.reservationDate = reservationDate;
-        this.contact = contact;
-        this.specialization = specialization;
-        this.payment = payment;
-        this.examinationPackage = examinationPackage;
-        this.note = note;
-        this.paymentNote = paymentNote;
-        this.billing = billing;
-        this.state = state;
+    private String taxCode;
+    private Set<MedicalExaminationDto> medicalExaminationsDto;
+
+    public PatientDto(long id, String firstname, String lastname, String dob, String sex,
+                      String cellNumber, String email, String username, String password,
+                      String taxCode, Set<MedicalExaminationDto> medicalExaminationsDto) {
+        super(id, firstname, lastname, dob, sex, cellNumber, email, username, password);
+        this.taxCode = taxCode;
+        this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
     public static PatientDto fromPatient(Patient patient) {
@@ -49,16 +37,14 @@ public class PatientDto extends PersonDto{
                 fromEnumToString(patient.getSex()),
                 patient.getCellNumber(),
                 patient.getEmail(),
-                DoctorDto.fromDoctor(patient.getDoctor()),
-                dateNullController(patient.getReservationDate()),
-                fromEnumToString(patient.getContact()),
-                SpecializationDto.fromSpecialization(patient.getSpecialization()),
-                fromEnumToString(patient.getPayment()),
-                fromEnumToString(patient.getExaminationPackage()),
-                patient.getNote(),
-                patient.getPaymentNote(),
-                patient.isBilling(),
-                fromEnumToString(patient.getState()));
+                patient.getUsername(),
+                patient.getPassword(),
+                patient.getTaxCode(),
+                patient.getMedicalExaminations()
+                        .stream()
+                        .map(MedicalExaminationDto::fromMedicalExamination)
+                        .collect(Collectors.toSet())
+        );
     }
 
     public Patient toPatient() {
@@ -67,18 +53,16 @@ public class PatientDto extends PersonDto{
                 this.getFirstname(),
                 this.getLastname(),
                 fromJSONString(this.getDob()),
-                fromStringToEnum(Sex.class, this.getSex()),
                 this.getCellNumber(),
                 this.getEmail(),
-                this.getDoctor().toDoctor(),
-                fromJSONString(this.getReservationDate()),
-                fromStringToEnum(Contact.class, this.getContact()),
-                this.getSpecialization().toSpecialization(),
-                fromStringToEnum(Payment.class, this.getPayment()),
-                fromStringToEnum(ExaminationPackage.class, this.getExaminationPackage()),
-                this.getNote(),
-                this.getPaymentNote(),
-                this.isBilling(),
-                fromStringToEnum(State.class, this.getState()));
+                fromStringToEnum(Sex.class, this.getSex()),
+                this.getUsername(),
+                this.getPassword(),
+                this.getTaxCode(),
+                this.getMedicalExaminationsDto()
+                        .stream()
+                        .map(MedicalExaminationDto::toMedicalExamination)
+                        .collect(Collectors.toSet())
+        );
     }
 }

@@ -41,15 +41,15 @@ class DoctorRepositoryTest {
                 "Milano", "MI", "Italy");
         s1 = new Specialization(0, "Psicologo");
         s2 = new Specialization(0, "Urologo");
-        d1 = new Doctor(0, "Pippo", "Baudo", LocalDate.of(1998,03,02), Sex.UOMO, "3405296844",
-                "pippobaudo@gmail.com", "pippobaudo", "pippobaudo80",
-                a1, s1, true );
-        d2 = new Doctor(0, "Minnie", "Baudo",LocalDate.of(1980,03,02), Sex.DONNA, "3463496844",
-                "minniebaudo@gmail.com", "minniebaudo", "minniebaudo80",
-                a1, s1, true );
-        d3 = new Doctor(0, "Pluto", "Plutonio", LocalDate.of(1960,03,02), Sex.UOMO, "3416996844",
-                "pluto@gmail.com", "plutoplutonio", "plutoplutonio80",
-                a1, s2, true );
+        d1 = new Doctor(0, "Pippo", "Baudo", LocalDate.of(1998,03,02), "3405296844",
+                "pippobaudo@gmail.com", Sex.UOMO,  "pippobaudo", "pippobaudo80",
+                a1, "agfhfadhf", s1, true );
+        d2 = new Doctor(0, "Minnie", "Baudo",LocalDate.of(1980,03,02), "3463496844",
+                "minniebaudo@gmail.com", Sex.DONNA, "minniebaudo", "minniebaudo80",
+                a1, "agfgfsaadhf", s1, true );
+        d3 = new Doctor(0, "Pluto", "Plutonio", LocalDate.of(1960,03,02), "3416996844",
+                "pluto@gmail.com", Sex.UOMO, "plutoplutonio", "plutoplutonio80",
+                a1, "agfgbgfadhf", s2, true );
 
         em.persist(a1);
         em.persist(s1);

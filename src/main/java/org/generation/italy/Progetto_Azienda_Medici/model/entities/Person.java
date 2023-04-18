@@ -34,14 +34,20 @@ public abstract class Person {
     @Column(name = "sesso")
     @Type(PostgreSQLEnumType.class)
     protected Sex sex;
+    protected String username;
+    protected String password;
 
-    public Person(long id, String firstname, String lastname, LocalDate dob, Sex sex, String cellNumber, String email) {
+    public Person(long id, String firstname, String lastname, LocalDate dob,
+                  String cellNumber, String email, Sex sex, String username,
+                  String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.dob = dob;
-        this.sex = sex;
         this.cellNumber = cellNumber;
         this.email = email;
+        this.sex = sex;
+        this.username = username;
+        this.password = password;
     }
 }
