@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 
+import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromJSONString;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,10 +19,10 @@ public class DoctorDto extends PersonDto{
     private SpecializationDto specialization;
     private boolean billing;
 
-    public DoctorDto(long id, String firstname, String lastname, String cellNumber,
+    public DoctorDto(long id, String firstname, String lastname, String dob, String cellNumber,
                      String email, Sex sex, String username, AddressDto address,
                      SpecializationDto specialization, boolean billing) {
-        super(id, firstname, lastname, sex, cellNumber, email);
+        super(id, firstname, lastname, dob, sex, cellNumber, email);
         this.username = username;
         this.address = address;
         this.specialization = specialization;
@@ -32,6 +34,7 @@ public class DoctorDto extends PersonDto{
                 doctor.getId(),
                 doctor.getFirstname(),
                 doctor.getLastname(),
+                doctor.getDob() != null ? doctor.getDob().toString() : "",
                 doctor.getCellNumber(),
                 doctor.getEmail(),
                 doctor.getSex(),
@@ -47,6 +50,7 @@ public class DoctorDto extends PersonDto{
                 this.getId(),
                 this.getFirstname(),
                 this.getLastname(),
+                fromJSONString(this.dob),
                 this.getSex(),
                 this.getCellNumber(),
                 this.getEmail(),

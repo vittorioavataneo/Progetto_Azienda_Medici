@@ -47,10 +47,10 @@ public class Patient extends Person{
     @Type(PostgreSQLEnumType.class)
     public State state;
 
-    public Patient(long id, String firstname, String lastname, Sex sex, String cellNumber, String email, Doctor doctor, LocalDate reservationDate,
+    public Patient(long id, String firstname, String lastname, LocalDate dob, Sex sex, String cellNumber, String email, Doctor doctor, LocalDate reservationDate,
                    Contact contact, Specialization specialization, Payment payment,
                    ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
-        super(id, firstname, lastname, sex, cellNumber, email);
+        super(id, firstname, lastname, dob, sex, cellNumber, email);
         this.doctor = doctor;
         this.reservationDate = reservationDate;
         this.contact = contact;

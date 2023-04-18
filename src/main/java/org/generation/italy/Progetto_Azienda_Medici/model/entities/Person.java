@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
+import java.time.LocalDate;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "persona")
@@ -23,6 +25,8 @@ public abstract class Person {
     protected String firstname;
     @Column(name = "cognome")
     protected String lastname;
+    @Column(name = "data_di_nascita")
+    protected LocalDate dob;
     @Column(name = "telefono")
     protected String cellNumber;
     protected String email;
@@ -31,13 +35,13 @@ public abstract class Person {
     @Type(PostgreSQLEnumType.class)
     protected Sex sex;
 
-    public Person(long id, String firstname, String lastname, Sex sex, String cellNumber, String email) {
+    public Person(long id, String firstname, String lastname, LocalDate dob, Sex sex, String cellNumber, String email) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.dob = dob;
         this.sex = sex;
         this.cellNumber = cellNumber;
         this.email = email;
-
     }
 }

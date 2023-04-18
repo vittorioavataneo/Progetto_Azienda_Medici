@@ -7,12 +7,14 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 
 import java.time.LocalDate;
 
+import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromJSONString;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class PatientDto extends PersonDto{
     private DoctorDto doctor;
-    private LocalDate reservationDate;
+    private String reservationDate;
     private Contact contact;
     private SpecializationDto specialization;
     private Payment payment;
@@ -22,10 +24,10 @@ public class PatientDto extends PersonDto{
     private boolean billing;
     private State state;
 
-    public PatientDto(long id, String firstname, String lastname, Sex sex, String cellNumber, String email, DoctorDto doctor,
-                      LocalDate reservationDate, Contact contact, SpecializationDto specialization, Payment payment,
+    public PatientDto(long id, String firstname, String lastname, String dob, Sex sex, String cellNumber, String email, DoctorDto doctor,
+                      String reservationDate, Contact contact, SpecializationDto specialization, Payment payment,
                       ExaminationPackage examinationPackage, String note, String paymentNote, boolean billing, State state) {
-        super(id, firstname, lastname, sex, cellNumber, email);
+        super(id, firstname, lastname, String.valueOf(dob), sex, cellNumber, email);
         this.doctor = doctor;
         this.reservationDate = reservationDate;
         this.contact = contact;
@@ -43,11 +45,12 @@ public class PatientDto extends PersonDto{
                 patient.getId(),
                 patient.getFirstname(),
                 patient.getLastname(),
+                patient.getDob() != null ? patient.getDob().toString() : "",
                 patient.getSex(),
                 patient.getCellNumber(),
                 patient.getEmail(),
                 DoctorDto.fromDoctor(patient.getDoctor()),
-                patient.getReservationDate(),
+                patient.getReservationDate() != null ? patient.getReservationDate().toString() : "",
                 patient.getContact(),
                 SpecializationDto.fromSpecialization(patient.getSpecialization()),
                 patient.getPayment(),
@@ -63,11 +66,12 @@ public class PatientDto extends PersonDto{
                 this.getId(),
                 this.getFirstname(),
                 this.getLastname(),
+                fromJSONString(this.getDob()),
                 this.getSex(),
                 this.getCellNumber(),
                 this.getEmail(),
                 this.getDoctor().toDoctor(),
-                this.getReservationDate(),
+                fromJSONString(this.getReservationDate()),
                 this.getContact(),
                 this.getSpecialization().toSpecialization(),
                 this.getPayment(),

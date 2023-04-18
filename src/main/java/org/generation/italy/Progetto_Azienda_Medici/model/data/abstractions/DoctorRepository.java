@@ -1,8 +1,6 @@
 package org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions;
 
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface DoctorRepository extends GenericRepository<Doctor> {

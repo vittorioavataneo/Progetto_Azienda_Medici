@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEnti
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +41,13 @@ class DoctorRepositoryTest {
                 "Milano", "MI", "Italy");
         s1 = new Specialization(0, "Psicologo");
         s2 = new Specialization(0, "Urologo");
-        d1 = new Doctor(0, "Pippo", "Baudo", Sex.UOMO, "3405296844",
+        d1 = new Doctor(0, "Pippo", "Baudo", LocalDate.of(1998,03,02), Sex.UOMO, "3405296844",
                 "pippobaudo@gmail.com", "pippobaudo", "pippobaudo80",
                 a1, s1, true );
-        d2 = new Doctor(0, "Minnie", "Baudo", Sex.DONNA, "3463496844",
+        d2 = new Doctor(0, "Minnie", "Baudo",LocalDate.of(1980,03,02), Sex.DONNA, "3463496844",
                 "minniebaudo@gmail.com", "minniebaudo", "minniebaudo80",
                 a1, s1, true );
-        d3 = new Doctor(0, "Pluto", "Plutonio", Sex.UOMO, "3416996844",
+        d3 = new Doctor(0, "Pluto", "Plutonio", LocalDate.of(1960,03,02), Sex.UOMO, "3416996844",
                 "pluto@gmail.com", "plutoplutonio", "plutoplutonio80",
                 a1, s2, true );
 
@@ -57,7 +58,6 @@ class DoctorRepositoryTest {
         em.persist(d2);
         em.persist(d3);
 
-        System.out.println(docRepo.findAll());
     }
 
     @AfterEach

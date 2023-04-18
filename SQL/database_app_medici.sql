@@ -16,6 +16,7 @@ CREATE TABLE persona (
       id_persona        BIGINT          NOT NULL,
       nome              VARCHAR(50)     NOT NULL,
       cognome           VARCHAR(50)     NOT NULL,
+      data_di_nascita   DATE            NOT NULL,
       telefono          VARCHAR(20),
       email             VARCHAR(100)    NOT NULL,
       sesso             sesso           NOT NULL,
@@ -65,7 +66,7 @@ CREATE TABLE medico
 	id_medico                   BIGINT          NOT NULL,
     id_indirizzo                BIGINT          NOT NULL,
     username                    VARCHAR(30)     NOT NULL,
-    password                    VARCHAR(30)     NOT NULL,
+    password                    VARCHAR(500)    NOT NULL,
     id_visita_specialistica     BIGINT          NOT NULL,
     fatturazione                BOOLEAN         NOT NULL,
 

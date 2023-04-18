@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id_medico")
 @Table(name = "medico")
@@ -24,10 +26,10 @@ public class Doctor extends Person{
     @Column(name = "fatturazione")
     private boolean billing;
 
-    public Doctor(long id, String firstname, String lastname, Sex sex, String cellNumber,
+    public Doctor(long id, String firstname, String lastname, LocalDate dob, Sex sex, String cellNumber,
                   String email, String username, String password,
                   Address address, Specialization specialization, boolean billing) {
-        super(id, firstname, lastname, sex, cellNumber, email);
+        super(id, firstname, lastname, dob, sex, cellNumber, email);
         this.username = username;
         this.password = password;
         this.address = address;
