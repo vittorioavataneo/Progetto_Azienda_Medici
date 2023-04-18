@@ -21,13 +21,13 @@ public class StringUtilities {
     }
 
     public static String fromEnumToString(Enum<?> e){
-        String enumName = e.name().toLowerCase().replace("_", " ");
+        String enumName = e.name().toLowerCase();
         return enumName.substring(0, 1).toUpperCase() + enumName.substring(1);
     }
 
     public static <T extends Enum<T>> T fromStringToEnum(Class<T> enumClass, String value) throws IllegalArgumentException {
         try {
-            return Enum.valueOf(enumClass, value.toUpperCase().replace(" ", "_"));
+            return Enum.valueOf(enumClass, value.toUpperCase());
         }catch (IllegalArgumentException e){
             e.printStackTrace();
             throw new IllegalArgumentException("La stringa " + value + " non corrisponde a un valore valido per l'enum " + enumClass.getSimpleName());
