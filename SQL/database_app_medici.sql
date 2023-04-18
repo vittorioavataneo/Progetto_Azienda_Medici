@@ -127,9 +127,9 @@ CREATE TABLE visita_medica(
         CONSTRAINT FK_visita_medica_medico  FOREIGN KEY(id_medico)
             REFERENCES medico(id_medico),
         CONSTRAINT FK_visita_medica_paziente FOREIGN KEY(id_paziente)
-                    REFERENCES paziente(id_paziente),
+            REFERENCES paziente(id_paziente),
         CONSTRAINT FK_visita_medica_visita_specialistica FOREIGN KEY(id_visita_specialistica)
-                    REFERENCES visita_specialistica(id_visita_specialistica)
+            REFERENCES visita_specialistica(id_visita_specialistica)
 );
 
 CREATE SEQUENCE id_visita_medica_sequence

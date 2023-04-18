@@ -26,15 +26,15 @@ public class MedicalExamination {
     @ManyToOne
     @JoinColumn(name = "id_paziente")
     private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "id_visita_specialistica")
+    private Specialization specialization;
     @Column(name = "data_prenotazione")
     private LocalDate reservationDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_di_contatto")
     @Type(PostgreSQLEnumType.class)
     private Contact contact;
-    @ManyToOne
-    @JoinColumn(name = "id_visita_specialistica")
-    private Specialization specialization;
     @Enumerated(EnumType.STRING)
     @Column(name = "pagamento")
     @Type(PostgreSQLEnumType.class)
@@ -43,15 +43,15 @@ public class MedicalExamination {
     @Column(name = "pacchetto")
     @Type(PostgreSQLEnumType.class)
     private ExaminationPackage examinationPackage;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stato")
+    @Type(PostgreSQLEnumType.class)
+    public State state;
     private String note;
     @Column(name = "note_pagamento")
     private String paymentNote;
     @Column(name = "fatturazione")
     private boolean billing;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "stato")
-    @Type(PostgreSQLEnumType.class)
-    public State state;
 
     public MedicalExamination(long id, Doctor doctor, Patient patient, LocalDate reservationDate,
                               Contact contact, Specialization specialization, Payment payment,
