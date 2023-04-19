@@ -18,40 +18,41 @@ public class MedicalExamination {
     @Id
     @GeneratedValue(generator = "visita_medica_generator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "visita_medica_generator", sequenceName = "visita_medica_sequence", allocationSize = 1)
-    @Column(name = "id_visita_medica")
+    @Column(name = "id_visita_medica", columnDefinition = "BIGINT")
     private long id;
+    @Column(name = "fatturazione", columnDefinition = "BOOLEAN")
+    private boolean billing;
     @ManyToOne
-    @JoinColumn(name = "id_medico")
+    @JoinColumn(name = "id_medico", columnDefinition = "BIGINT")
     private Doctor doctor;
     @ManyToOne
-    @JoinColumn(name = "id_paziente")
+    @JoinColumn(name = "id_paziente", columnDefinition = "BIGINT")
     private Patient patient;
-    @ManyToOne
-    @JoinColumn(name = "id_visita_specialistica")
-    private Specialization specialization;
-    @Column(name = "data_prenotazione")
+    @Column(name = "data_prenotazione", columnDefinition = "DATE")
     private LocalDate reservationDate;
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_di_contatto")
+    @Column(name = "tipo_di_contatto", columnDefinition = "tipo_di_contatto")
     @Type(PostgreSQLEnumType.class)
     private Contact contact;
+    @ManyToOne
+    @JoinColumn(name = "id_visita_specialistica", columnDefinition = "BIGINT")
+    private Specialization specialization;
     @Enumerated(EnumType.STRING)
-    @Column(name = "pagamento")
+    @Column(name = "pagamento", columnDefinition = "pagamento")
     @Type(PostgreSQLEnumType.class)
     private Payment payment;
+    @Column(name = "note_pagamento", columnDefinition = "VARCHAR")
+    private String paymentNote;
     @Enumerated(EnumType.STRING)
-    @Column(name = "pacchetto")
+    @Column(name = "pacchetto", columnDefinition = "pacchetto")
     @Type(PostgreSQLEnumType.class)
     private ExaminationPackage examinationPackage;
+    @Column(name = "note", columnDefinition = "VARCHAR")
+    private String note;
     @Enumerated(EnumType.STRING)
-    @Column(name = "stato")
+    @Column(name = "stato", columnDefinition = "stato")
     @Type(PostgreSQLEnumType.class)
     public State state;
-    private String note;
-    @Column(name = "note_pagamento")
-    private String paymentNote;
-    @Column(name = "fatturazione")
-    private boolean billing;
 
     public MedicalExamination(long id, Doctor doctor, Patient patient, LocalDate reservationDate,
                               Contact contact, Specialization specialization, Payment payment,
