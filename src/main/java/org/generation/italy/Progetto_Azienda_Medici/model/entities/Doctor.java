@@ -26,7 +26,7 @@ public class Doctor extends Person{
     private Specialization specialization;
     @Column(name = "fatturazione")
     private boolean billing;
-
+    @OneToMany(mappedBy = "doctor")
     private Set<MedicalExamination> medicalExaminations;
 
     public Doctor(long id, String firstname, String lastname, LocalDate dob,

@@ -21,20 +21,28 @@ public abstract class Person {
     @SequenceGenerator(name = "persona_generator", sequenceName = "persona_sequence", allocationSize = 1)
     @Column(name= "id_persona")
     protected long id;
+
     @Column(name = "nome")
     protected String firstname;
+
     @Column(name = "cognome")
     protected String lastname;
+
     @Column(name = "data_di_nascita")
     protected LocalDate dob;
+
     @Column(name = "telefono")
     protected String cellNumber;
+
     protected String email;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "sesso")
     @Type(PostgreSQLEnumType.class)
     protected Sex sex;
+
     protected String username;
+
     protected String password;
 
     public Person(long id, String firstname, String lastname, LocalDate dob,

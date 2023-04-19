@@ -17,7 +17,9 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class Patient extends Person{
+    @Column(name = "codice_fiscale")
     private String taxCode;
+    @OneToMany(mappedBy = "patient")
     private Set<MedicalExamination> medicalExaminations;
 
 
