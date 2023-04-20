@@ -16,7 +16,6 @@ public class GenericService<T> {
         this.genRepo = genRepo;
     }
 
-
     public Iterable<T> findAll() { return genRepo.findAll(); }
 
     public Optional<T> findById(long id) {
