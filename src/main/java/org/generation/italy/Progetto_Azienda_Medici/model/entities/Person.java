@@ -2,9 +2,11 @@ package org.generation.italy.Progetto_Azienda_Medici.model.entities;
 
 import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
@@ -34,28 +36,23 @@ public abstract class Person {
     @Column(name = "telefono")
     protected String cellNumber;
 
-    protected String email;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "sesso")
     @Type(PostgreSQLEnumType.class)
     protected Sex sex;
 
-    protected String username;
-
-    protected String password;
+    @OneToOne
+    @JoinColumn(name = "id_user_p")
+    protected User user;
 
     public Person(long id, String firstname, String lastname, LocalDate dob,
-                  String cellNumber, String email, Sex sex, String username,
-                  String password) {
+                  String cellNumber, Sex sex, User user) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.dob = dob;
         this.cellNumber = cellNumber;
-        this.email = email;
         this.sex = sex;
-        this.username = username;
-        this.password = password;
+        this.user = user;
     }
 }

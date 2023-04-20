@@ -11,5 +11,4 @@ public interface PatientRepository extends GenericRepository<Patient> {
             """)
     Iterable<Patient> findByName(String part);
 
-
 }

@@ -4,10 +4,12 @@ import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 import org.hibernate.annotations.Type;
 
 @Getter
@@ -21,20 +23,15 @@ public abstract class PersonDto {
     protected String dob;
     protected String sex;
     protected String cellNumber;
-    protected String email;
-    private String username;
-    private String password;
+    protected User user;
 
-    public PersonDto(long id, String firstname, String lastname, String dob, String sex,
-                     String cellNumber, String email, String username, String password) {
+    public PersonDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber, User user) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.dob = dob;
         this.sex = sex;
         this.cellNumber = cellNumber;
-        this.email = email;
-        this.username = username;
-        this.password = password;
+        this.user = user;
     }
 }

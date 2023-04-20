@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
-DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato;
+DROP TABLE IF EXISTS user_p, token, persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
+DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato, role, token_type;
 
 
 --TYPE ENUM
@@ -8,9 +8,49 @@ CREATE TYPE tipo_di_contatto		AS ENUM ('INTERVISTA');
 CREATE TYPE pacchetto               AS ENUM ('CORPO_MENTE', 'CORPO', 'MENTE');
 CREATE TYPE pagamento               AS ENUM ('BONIFICO', 'SATISPAY', 'CARTA_DI_CREDITO_O_DEBITO', 'PAYPAL', 'CONTANTI');
 CREATE TYPE stato                   AS ENUM ('DA_PROGRAMMARE', 'PROGRAMMATO', 'FATTO', 'ANNULLATO');
+CREATE TYPE role                    AS ENUM ('USER', 'PROFESSIONAL', 'ADMIN');
+CREATE TYPE token_type              AS ENUM ('BEARER');
 
 
 --TABLE
+--Tabella user_p
+CREATE TABLE user_p (
+    id_user_p       INT             NOT NULL,
+    email           VARCHAR(50)     NOT NULL,
+    password        VARCHAR(500)    NOT NULL,
+    role            role            NOT NULL,
+
+    CONSTRAINT PK_user_p PRIMARY KEY(id_user_p)
+);
+CREATE SEQUENCE user_p_sequence
+     start 1
+     increment 1
+     OWNED BY user_p.id_user_p;
+
+
+--Table token
+CREATE TABLE token(
+
+    id_token        INT             NOT NULL,
+    token_code      VARCHAR(500)    NOT NULL,
+    token_type      token_type      NOT NULL,
+    revoked         BOOLEAN         NOT NULL,
+    expired         BOOLEAN         NOT NULL,
+    id_user_p       BIGINT          NOT NULL,
+
+    CONSTRAINT PK_token PRIMARY KEY(id_token),
+
+    CONSTRAINT FK_token_user_p FOREIGN KEY(id_user_p )
+            REFERENCES user_p(id_user_p )
+
+);
+CREATE SEQUENCE token_sequence
+     start 1
+     increment 1
+     OWNED BY token.id_token;
+
+
+
 --Tabella persona
 CREATE TABLE persona (
 
@@ -19,17 +59,19 @@ CREATE TABLE persona (
       cognome           VARCHAR(50)     NOT NULL,
       data_di_nascita   DATE            NOT NULL,
       telefono          VARCHAR(20),
-      email             VARCHAR(100)    NOT NULL,
       sesso             sesso           NOT NULL,
-      username          VARCHAR(30)     NOT NULL,
-      password          VARCHAR(500)    NOT NULL,
+      id_user_p         BIGINT          NOT NULL,
 
-      CONSTRAINT PK_persona PRIMARY KEY(id_persona)
+      CONSTRAINT PK_persona PRIMARY KEY(id_persona),
+
+      CONSTRAINT FK_persona_user_p FOREIGN KEY(id_user_p )
+            REFERENCES user_p(id_user_p )
 );
 CREATE SEQUENCE persona_sequence
-  start 1
-  increment 1
-  OWNED BY persona.id_persona;
+      start 1
+      increment 1
+      OWNED BY persona.id_persona;
+
 
 
 --Tabella visita_specialistica
@@ -68,7 +110,7 @@ CREATE SEQUENCE indirizzo_sequence
 --Tabella medico
 CREATE TABLE medico(
 	id_medico                   BIGINT          NOT NULL,
-    id_indirizzo                BIGINT          NOT NULL,
+    id_indirizzo                BIGINT,
     codice_dottore              VARCHAR(500)    NOT NULL,
     id_visita_specialistica     BIGINT          NOT NULL,
     fatturazione                BOOLEAN         NOT NULL,
@@ -146,14 +188,11 @@ CREATE TABLE admin(
 
     id_admin                BIGINT              NOT NULL,
     codice_admin            VARCHAR(500)        NOT NULL,
-    id_indirizzo            BIGINT              NOT NULL,
 
     CONSTRAINT PK_admin PRIMARY KEY(id_admin),
 
     CONSTRAINT FK_admin_persona FOREIGN KEY(id_admin)
-        REFERENCES persona(id_persona),
-    CONSTRAINT FK_admin_indirizzo FOREIGN KEY(id_indirizzo)
-            REFERENCES indirizzo(id_indirizzo)
+        REFERENCES persona(id_persona)
 );
 
 CREATE SEQUENCE admin_sequence

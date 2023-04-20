@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -18,12 +19,12 @@ import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtili
 public class PatientDto extends PersonDto{
 
     private String taxCode;
+
     private Set<MedicalExaminationDto> medicalExaminationsDto;
 
-    public PatientDto(long id, String firstname, String lastname, String dob, String sex,
-                      String cellNumber, String email, String username, String password,
-                      String taxCode, Set<MedicalExaminationDto> medicalExaminationsDto) {
-        super(id, firstname, lastname, dob, sex, cellNumber, email, username, password);
+    public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber,
+                      User user, String taxCode, Set<MedicalExaminationDto> medicalExaminationsDto) {
+        super(id, firstname, lastname, dob, sex, cellNumber, user);
         this.taxCode = taxCode;
         this.medicalExaminationsDto = medicalExaminationsDto;
     }
@@ -36,9 +37,7 @@ public class PatientDto extends PersonDto{
                 dateNullController(patient.getDob()),
                 fromEnumToString(patient.getSex()),
                 patient.getCellNumber(),
-                patient.getEmail(),
-                patient.getUsername(),
-                patient.getPassword(),
+                patient.getUser(),
                 patient.getTaxCode(),
                 patient.getMedicalExaminations()
                         .stream()
@@ -54,10 +53,8 @@ public class PatientDto extends PersonDto{
                 this.getLastname(),
                 fromJSONString(this.getDob()),
                 this.getCellNumber(),
-                this.getEmail(),
                 fromStringToEnum(Sex.class, this.getSex()),
-                this.getUsername(),
-                this.getPassword(),
+                this.getUser(),
                 this.getTaxCode(),
                 this.getMedicalExaminationsDto()
                         .stream()

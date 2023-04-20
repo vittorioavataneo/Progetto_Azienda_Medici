@@ -1,9 +1,11 @@
 package org.generation.italy.Progetto_Azienda_Medici.model.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import java.time.LocalDate;
 
@@ -14,17 +16,13 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class Admin extends Person{
+
     @Column( name = "codice_admin")
     private String adminCode;
-    @ManyToOne
-    @JoinColumn(name = "id_indirizzo")
-    private Address address;
 
     public Admin(long id, String firstname, String lastname, LocalDate dob,
-                 String cellNumber, String email, Sex sex, String username,
-                 String password, String adminCode, Address address) {
-        super(id, firstname, lastname, dob, cellNumber, email, sex, username, password);
+                 String cellNumber, Sex sex, User user, String adminCode) {
+        super(id, firstname, lastname, dob, cellNumber, sex, user);
         this.adminCode = adminCode;
-        this.address = address;
     }
 }

@@ -2,12 +2,14 @@ package org.generation.italy.Progetto_Azienda_Medici.dtos;
 
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Address;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Admin;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromStringToEnum;
@@ -16,15 +18,12 @@ import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtili
 @Setter
 @NoArgsConstructor
 public class AdminDto extends PersonDto{
-    private String adminCode;
-    private AddressDto addressDto;
 
-    public AdminDto(long id, String firstname, String lastname, String dob, String sex,
-                    String cellNumber, String email, String username, String password,
-                    String adminCode, AddressDto addressDto) {
-        super(id, firstname, lastname, dob, sex, cellNumber, email, username, password);
+    private String adminCode;
+
+    public AdminDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber, User user, String adminCode) {
+        super(id, firstname, lastname, dob, sex, cellNumber, user);
         this.adminCode = adminCode;
-        this.addressDto = addressDto;
     }
 
     public static AdminDto fromAdmin(Admin admin){
@@ -35,11 +34,8 @@ public class AdminDto extends PersonDto{
                 dateNullController(admin.getDob()),
                 fromEnumToString(admin.getSex()),
                 admin.getCellNumber(),
-                admin.getEmail(),
-                admin.getUsername(),
-                admin.getPassword(),
-                admin.getAdminCode(),
-                AddressDto.fromAddress(admin.getAddress())
+                admin.getUser(),
+                admin.getAdminCode()
         );
     }
 
@@ -50,12 +46,9 @@ public class AdminDto extends PersonDto{
                 this.getLastname(),
                 fromJSONString(this.getDob()),
                 this.getCellNumber(),
-                this.getEmail(),
                 fromStringToEnum(Sex.class, this.getSex()),
-                this.getUsername(),
-                this.getPassword(),
-                this.getAdminCode(),
-                this.getAddressDto().toAddress()
+                this.getUser(),
+                this.getAdminCode()
         );
     }
 }

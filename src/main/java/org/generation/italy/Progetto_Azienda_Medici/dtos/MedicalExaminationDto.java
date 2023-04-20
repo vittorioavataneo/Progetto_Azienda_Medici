@@ -62,16 +62,16 @@ public class MedicalExaminationDto {
     public MedicalExamination toMedicalExamination() {
         return new MedicalExamination(
                 this.getId(),
+                this.getBilling(),
                 this.getDoctorDto().toDoctor(),
                 this.getPatientDto().toPatient(),
                 fromJSONString(this.getReservationDate()),
                 fromStringToEnum(Contact.class, this.getContact()),
                 this.getSpecializationDto().toSpecialization(),
                 fromStringToEnum(Payment.class, this.getPayment()),
+                this.getPaymentNote(),
                 fromStringToEnum(ExaminationPackage.class, this.getExaminationPackage()),
                 this.getNote(),
-                this.getPaymentNote(),
-                this.getBilling(),
                 fromStringToEnum(State.class, this.getState()));
     }
 

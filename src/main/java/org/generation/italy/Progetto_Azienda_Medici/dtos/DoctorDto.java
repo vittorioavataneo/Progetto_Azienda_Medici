@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,11 +23,11 @@ public class DoctorDto extends PersonDto{
     private boolean billing;
     private Set<MedicalExaminationDto> medicalExaminationsDto;
 
-    public DoctorDto(long id, String firstname, String lastname, String dob, String sex,
-                     String cellNumber, String email, String username, String password,
-                     AddressDto address, String doctorCode, SpecializationDto specialization,
+    public DoctorDto(long id, String firstname, String lastname, String dob,
+                     String sex, String cellNumber, User user, AddressDto address,
+                     String doctorCode, SpecializationDto specialization,
                      boolean billing, Set<MedicalExaminationDto> medicalExaminationsDto) {
-        super(id, firstname, lastname, dob, sex, cellNumber, email, username, password);
+        super(id, firstname, lastname, dob, sex, cellNumber, user);
         this.address = address;
         this.doctorCode = doctorCode;
         this.specialization = specialization;
@@ -42,9 +43,7 @@ public class DoctorDto extends PersonDto{
                 dateNullController(doctor.getDob()),
                 fromEnumToString(doctor.getSex()),
                 doctor.getCellNumber(),
-                doctor.getEmail(),
-                doctor.getUsername(),
-                doctor.getPassword(),
+                doctor.getUser(),
                 AddressDto.fromAddress(doctor.getAddress()),
                 doctor.getDoctorCode(),
                 SpecializationDto.fromSpecialization(doctor.getSpecialization()),
@@ -63,10 +62,8 @@ public class DoctorDto extends PersonDto{
                 this.getLastname(),
                 fromJSONString(this.dob),
                 this.getCellNumber(),
-                this.getEmail(),
                 fromStringToEnum(Sex.class, this.getSex()),
-                this.getUsername(),
-                this.getPassword(),
+                this.getUser(),
                 this.getAddress().toAddress(),
                 this.getDoctorCode(),
                 this.getSpecialization().toSpecialization(),
