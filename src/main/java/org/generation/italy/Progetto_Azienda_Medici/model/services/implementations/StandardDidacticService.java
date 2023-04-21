@@ -30,6 +30,7 @@ public class StandardDidacticService implements AbstractDidacticService{
     public Iterable<Doctor> findDoctorByName(String part) {
         return doctorRepo.findByName(part);
     }
+
     @Override
     public Iterable<Doctor> findDoctorBySpecialization(String part) {
         return doctorRepo.findBySpecialization(part);

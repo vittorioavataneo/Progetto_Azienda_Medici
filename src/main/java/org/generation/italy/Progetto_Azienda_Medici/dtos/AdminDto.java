@@ -11,6 +11,8 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.Admin;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
+import java.util.stream.StreamSupport;
+
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromStringToEnum;
 
@@ -50,5 +52,11 @@ public class AdminDto extends PersonDto{
                 this.getUser(),
                 this.getAdminCode()
         );
+    }
+
+    public static Iterable<AdminDto> fromAdminIterable(Iterable<Admin> adminIterable){
+        return StreamSupport.stream(adminIterable.spliterator(), false)
+                .map(AdminDto::fromAdmin)
+                .toList();
     }
 }

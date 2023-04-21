@@ -9,6 +9,7 @@ import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
@@ -73,6 +74,12 @@ public class DoctorDto extends PersonDto{
                         .map(MedicalExaminationDto::toMedicalExamination)
                         .collect(Collectors.toSet())
         );
+    }
+
+    public static Iterable<DoctorDto> fromDoctorIterable(Iterable<Doctor> doctorIterable){
+        return StreamSupport.stream(doctorIterable.spliterator(), false)
+                .map(DoctorDto::fromDoctor)
+                .toList();
     }
 }
 
