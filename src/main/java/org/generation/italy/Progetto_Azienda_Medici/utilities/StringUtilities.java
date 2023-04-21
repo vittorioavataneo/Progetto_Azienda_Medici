@@ -34,25 +34,4 @@ public class StringUtilities {
         }
     }
 
-    /*public static String fromSexToString(Sex sex){
-        String result = sex.name().toLowerCase().replace("_", " ");
-        return result.substring(0, 1).toUpperCase() + result.substring(1);
-    }
-
-    public static String fromContactToString(Contact contact){
-        String result = contact.name().toLowerCase().replace("_", " ");
-        return result.substring(0, 1).toUpperCase() + result.substring(1);
-    }
-    public static String fromExaminationPackageToString(ExaminationPackage ep){
-        String result = ep.name().toLowerCase().replace("_", " ");
-        return result.substring(0, 1).toUpperCase() + result.substring(1);
-    }
-    public static String fromPaymentToString(Payment payment){
-        String result = payment.name().toLowerCase().replace("_", " ");
-        return result.substring(0, 1).toUpperCase() + result.substring(1);
-    }
-    public static String fromStateToString(State state){
-        String result = state.name().toLowerCase().replace("_", " ");
-        return result.substring(0, 1).toUpperCase() + result.substring(1);
-    }*/
 }

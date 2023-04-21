@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.AdminRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.DoctorRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.PatientRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Admin;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
+import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 import org.generation.italy.Progetto_Azienda_Medici.security.config.JwtService;
 import org.generation.italy.Progetto_Azienda_Medici.security.token.Token;
 import org.generation.italy.Progetto_Azienda_Medici.security.token.TokenRepository;
@@ -25,11 +22,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.HashSet;
+
+import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
   private final UserRepository repository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
@@ -39,15 +39,26 @@ public class AuthenticationService {
   private final DoctorRepository doctorRepository;
   private final AdminRepository adminRepository;
 
+
   public AuthenticationResponse registerUser(RegisterRequestUser request) {
     var user = User.builder()
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
         .role(Role.USER)
         .build();
-    patientRepository.save(new Patient(0, request.getFirstname(),
-            request.getLastname(), request.getDob(), request.getCellNumber(),
-            request.getSex(), user, request.getTaxCode(), null));
+    patientRepository.save(
+            new Patient(
+                    0,
+                    request.getFirstname(),
+                    request.getLastname(),
+                    fromJSONString(request.getDob()),
+                    request.getCellNumber(),
+                    fromStringToEnum(Sex.class, request.getSex()),
+                    user,
+                    request.getTaxCode(),
+                    new HashSet<>()
+            )
+    );
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
@@ -64,10 +75,22 @@ public class AuthenticationService {
             .password(passwordEncoder.encode(request.getPassword()))
             .role(Role.USER)
             .build();
-    doctorRepository.save(new Doctor(0, request.getFirstname(),
-            request.getLastname(), request.getDob(), request.getCellNumber(),
-            request.getSex(), user,request.getAddress(), request.getDoctorCode(),
-            request.getSpecialization(), request.isBilling(), null));
+    doctorRepository.save(
+            new Doctor(
+                    0,
+                    request.getFirstname(),
+                    request.getLastname(),
+                    fromJSONString(request.getDob()),
+                    request.getCellNumber(),
+                    fromStringToEnum(Sex.class, request.getSex()),
+                    user,
+                    request.getAddress().toAddress(),
+                    request.getDoctorCode(),
+                    request.getSpecialization().toSpecialization(),
+                    request.isBilling(),
+                    new HashSet<>()
+            )
+    );
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
@@ -84,9 +107,18 @@ public class AuthenticationService {
             .password(passwordEncoder.encode(request.getPassword()))
             .role(Role.USER)
             .build();
-    adminRepository.save(new Admin(0, request.getFirstname(),
-            request.getLastname(), request.getDob(), request.getCellNumber(),
-            request.getSex(), user, request.getAdminCode()));
+    adminRepository.save(
+            new Admin(
+                    0,
+                    request.getFirstname(),
+                    request.getLastname(),
+                    fromJSONString(request.getDob()),
+                    request.getCellNumber(),
+                    fromStringToEnum(Sex.class, request.getSex()),
+                    user,
+                    request.getAdminCode()
+            )
+    );
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);

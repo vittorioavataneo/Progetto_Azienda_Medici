@@ -4,11 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Address;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
-
-import java.time.LocalDate;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.AddressDto;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.SpecializationDto;
 
 @Data
 @Builder
@@ -18,14 +15,14 @@ public class RegisterRequestDoctor {
 
     private String firstname;
     private String lastname;
-    private LocalDate dob;
-    private Sex sex;
+    private String dob;
+    private String sex;
     private String email;
     private String cellNumber;
     private String password;
-    private Address address;
+    private AddressDto address;
     private String doctorCode;
-    private Specialization specialization;
+    private SpecializationDto specialization;
     private boolean billing;
 
 }

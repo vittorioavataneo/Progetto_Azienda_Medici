@@ -16,8 +16,8 @@ public class RegisterRequestAdmin {
 
     private String firstname;
     private String lastname;
-    private LocalDate dob;
-    private Sex sex;
+    private String dob;
+    private String sex;
     private String email;
     private String cellNumber;
     private String password;

@@ -9,6 +9,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.Address;
 @Setter
 @NoArgsConstructor
 public class AddressDto {
+
     private long id;
     private String street;
     private String cap;
