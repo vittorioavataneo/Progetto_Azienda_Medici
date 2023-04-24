@@ -5,6 +5,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.Doct
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.MedicalExaminationRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.PatientRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
+import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
@@ -42,5 +43,17 @@ public class StandardDidacticService implements AbstractDidacticService{
     //PATIENT
     @Override
     public Iterable<Patient> findPatientByName(String part) { return patientRepo.findByName(part); }
+
+
+    //MEDICAL EXAMINATION
+    @Override
+    public Iterable<MedicalExamination> findAllMedicalExaminationByDoctorId(long id) {
+        return examinationRepository.findAllMedicalExaminationByDoctorId(id);
+    }
+
+    @Override
+    public Iterable<MedicalExamination> findAllMedicalExaminationByPatientId(long id) {
+        return examinationRepository.findAllMedicalExaminationByPatientId(id);
+    }
 
 }

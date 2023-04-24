@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 
+import java.util.stream.StreamSupport;
+
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.fromStringToEnum;
 
@@ -73,6 +75,12 @@ public class MedicalExaminationDto {
                 fromStringToEnum(ExaminationPackage.class, this.getExaminationPackage()),
                 this.getNote(),
                 fromStringToEnum(State.class, this.getState()));
+    }
+
+    public static Iterable<MedicalExaminationDto> fromExaminationIterable(Iterable<MedicalExamination> examinationIterable){
+        return StreamSupport.stream(examinationIterable.spliterator(), false)
+                .map(MedicalExaminationDto::fromMedicalExamination)
+                .toList();
     }
 
 }

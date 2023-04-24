@@ -113,7 +113,6 @@ CREATE TABLE medico(
     id_indirizzo                BIGINT,
     codice_dottore              VARCHAR(500)    NOT NULL,
     id_visita_specialistica     BIGINT          NOT NULL,
-    fatturazione                BOOLEAN         NOT NULL,
 
 	CONSTRAINT PK_medico PRIMARY KEY(id_medico),
 

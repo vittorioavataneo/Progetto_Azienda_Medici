@@ -21,18 +21,15 @@ public class DoctorDto extends PersonDto{
     private AddressDto address;
     private String doctorCode;
     private SpecializationDto specialization;
-    private boolean billing;
     private Set<MedicalExaminationDto> medicalExaminationsDto;
 
     public DoctorDto(long id, String firstname, String lastname, String dob,
                      String sex, String cellNumber, User user, AddressDto address,
-                     String doctorCode, SpecializationDto specialization,
-                     boolean billing, Set<MedicalExaminationDto> medicalExaminationsDto) {
+                     String doctorCode, SpecializationDto specialization, Set<MedicalExaminationDto> medicalExaminationsDto) {
         super(id, firstname, lastname, dob, sex, cellNumber, user);
         this.address = address;
         this.doctorCode = doctorCode;
         this.specialization = specialization;
-        this.billing = billing;
         this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
@@ -48,7 +45,6 @@ public class DoctorDto extends PersonDto{
                 AddressDto.fromAddress(doctor.getAddress()),
                 doctor.getDoctorCode(),
                 SpecializationDto.fromSpecialization(doctor.getSpecialization()),
-                doctor.isBilling(),
                 doctor.getMedicalExaminations()
                         .stream()
                         .map(MedicalExaminationDto::fromMedicalExamination)
@@ -68,7 +64,6 @@ public class DoctorDto extends PersonDto{
                 this.getAddress().toAddress(),
                 this.getDoctorCode(),
                 this.getSpecialization().toSpecialization(),
-                this.isBilling(),
                 this.getMedicalExaminationsDto()
                         .stream()
                         .map(MedicalExaminationDto::toMedicalExamination)

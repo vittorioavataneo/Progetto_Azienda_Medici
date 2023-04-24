@@ -87,7 +87,6 @@ public class AuthenticationService {
                     request.getAddress().toAddress(),
                     request.getDoctorCode(),
                     request.getSpecialization().toSpecialization(),
-                    request.isBilling(),
                     new HashSet<>()
             )
     );

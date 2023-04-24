@@ -23,6 +23,5 @@ public class RegisterRequestDoctor {
     private AddressDto address;
     private String doctorCode;
     private SpecializationDto specialization;
-    private boolean billing;
 
 }

@@ -1,10 +1,15 @@
 package org.generation.italy.Progetto_Azienda_Medici.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.DoctorDto;
 import org.generation.italy.Progetto_Azienda_Medici.dtos.MedicalExaminationDto;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.SimpleDoctorDto;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.GenericRepository;
+import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.GenericService;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +38,26 @@ public class MedicalExaminationController {
         return ResponseEntity.created(URI.create("api/medExamination"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
     }
 
+    // Insert Doctor
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateMedicalExamination(@RequestBody MedicalExaminationDto examinationDto,
+                                             @PathVariable long id) {
+        if (examinationDto.getId() != id) {
+            return ResponseEntity.badRequest().build();
+        }
+        MedicalExamination examination = examinationDto.toMedicalExamination();
+        try {
+            this.medicalExaminationService.update(examination);
+            return ResponseEntity.noContent().build();
+        } catch (DataException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     // Delete Patient medical examination
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMedicalExamination(@PathVariable long id){
@@ -40,14 +65,18 @@ public class MedicalExaminationController {
         return ResponseEntity.noContent().build();
     }
 
-    // find all the medical examinations
+    // Find Examination by Doctor id
+    @GetMapping("/doctor/{id}")
+    public ResponseEntity<Iterable<MedicalExaminationDto>> findAllDoctorMedicalExamination(@PathVariable long id){
+        Iterable<MedicalExamination> examinations = didacticService.findAllMedicalExaminationByDoctorId(id);
+        return ResponseEntity.ok().body(MedicalExaminationDto.fromExaminationIterable(examinations));
+    }
 
-    /*
-     ************************************
-     * ********************************
-     * ***********************************
-     * *********************************
-     * ******************************
-     */
+    // Find Examination by Patient id
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<Iterable<MedicalExaminationDto>> findAllPatientMedicalExamination(@PathVariable long id){
+        Iterable<MedicalExamination> examinations = didacticService.findAllMedicalExaminationByDoctorId(id);
+        return ResponseEntity.ok().body(MedicalExaminationDto.fromExaminationIterable(examinations));
+    }
 
 }

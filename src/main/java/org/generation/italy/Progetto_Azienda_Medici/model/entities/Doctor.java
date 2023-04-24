@@ -29,20 +29,16 @@ public class Doctor extends Person{
     @JoinColumn(name = "id_visita_specialistica")
     private Specialization specialization;
 
-    @Column(name = "fatturazione")
-    private boolean billing;
-
     @OneToMany(mappedBy = "doctor")
     private Set<MedicalExamination> medicalExaminations;
 
     public Doctor(long id, String firstname, String lastname, LocalDate dob,
                   String cellNumber, Sex sex, User user, Address address, String doctorCode,
-                  Specialization specialization, boolean billing, Set<MedicalExamination> medicalExaminations) {
+                  Specialization specialization, Set<MedicalExamination> medicalExaminations) {
         super(id, firstname, lastname, dob, cellNumber, sex, user);
         this.address = address;
         this.doctorCode = doctorCode;
         this.specialization = specialization;
-        this.billing = billing;
         this.medicalExaminations = medicalExaminations;
     }
 }
