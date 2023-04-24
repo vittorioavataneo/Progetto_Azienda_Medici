@@ -41,7 +41,7 @@ CREATE TABLE token(
     CONSTRAINT PK_token PRIMARY KEY(id_token),
 
     CONSTRAINT FK_token_user_p FOREIGN KEY(id_user_p )
-            REFERENCES user_p(id_user_p )
+            REFERENCES user_p(id_user_p ) ON DELETE CASCADE
 
 );
 CREATE SEQUENCE token_sequence
@@ -65,7 +65,7 @@ CREATE TABLE persona (
       CONSTRAINT PK_persona PRIMARY KEY(id_persona),
 
       CONSTRAINT FK_persona_user_p FOREIGN KEY(id_user_p )
-            REFERENCES user_p(id_user_p )
+            REFERENCES user_p(id_user_p ) ON DELETE CASCADE
 );
 CREATE SEQUENCE persona_sequence
       start 1
@@ -118,11 +118,11 @@ CREATE TABLE medico(
 	CONSTRAINT PK_medico PRIMARY KEY(id_medico),
 
     CONSTRAINT FK_medico_persona FOREIGN KEY(id_medico)
-		REFERENCES persona(id_persona),
+		REFERENCES persona(id_persona) ON DELETE CASCADE,
     CONSTRAINT FK_medico_indirizzo FOREIGN KEY(id_indirizzo)
-		REFERENCES indirizzo(id_indirizzo),
+		REFERENCES indirizzo(id_indirizzo) ON DELETE CASCADE,
     CONSTRAINT FK_medico_visita_specialistica FOREIGN KEY(id_visita_specialistica)
-        REFERENCES visita_specialistica(id_visita_specialistica)
+        REFERENCES visita_specialistica(id_visita_specialistica) ON DELETE CASCADE
 
 );
 
@@ -141,7 +141,7 @@ CREATE TABLE paziente(
     CONSTRAINT PK_paziente PRIMARY KEY(id_paziente),
 
     CONSTRAINT FK_paziente_persona FOREIGN KEY(id_paziente)
-		REFERENCES persona(id_persona)
+		REFERENCES persona(id_persona) ON DELETE CASCADE
 
 );
 
@@ -170,11 +170,11 @@ CREATE TABLE visita_medica(
     CONSTRAINT PK_visita_medica PRIMARY KEY(id_visita_medica),
 
     CONSTRAINT FK_visita_medica_medico  FOREIGN KEY(id_medico)
-        REFERENCES medico(id_medico),
+        REFERENCES medico(id_medico) ON DELETE CASCADE,
     CONSTRAINT FK_visita_medica_paziente FOREIGN KEY(id_paziente)
-        REFERENCES paziente(id_paziente),
+        REFERENCES paziente(id_paziente) ON DELETE CASCADE,
     CONSTRAINT FK_visita_medica_visita_specialistica FOREIGN KEY(id_visita_specialistica)
-        REFERENCES visita_specialistica(id_visita_specialistica)
+        REFERENCES visita_specialistica(id_visita_specialistica) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE visita_medica_sequence
@@ -192,7 +192,7 @@ CREATE TABLE admin(
     CONSTRAINT PK_admin PRIMARY KEY(id_admin),
 
     CONSTRAINT FK_admin_persona FOREIGN KEY(id_admin)
-        REFERENCES persona(id_persona)
+        REFERENCES persona(id_persona) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE admin_sequence

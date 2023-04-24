@@ -1,14 +1,12 @@
 package org.generation.italy.Progetto_Azienda_Medici.controllers;
 
-import org.generation.italy.Progetto_Azienda_Medici.dtos.DoctorDto;
-import org.generation.italy.Progetto_Azienda_Medici.dtos.MedicalExaminationDto;
-import org.generation.italy.Progetto_Azienda_Medici.dtos.SpecializationDto;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Admin;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
+import jakarta.persistence.EntityNotFoundException;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.*;
+import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.GenericRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.GenericService;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,61 +14,61 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "personalArea/patient")
+@RequestMapping(value = "api/patient")
 public class PatientController {
 
     private AbstractDidacticService didacticService;
-    private GenericService<Doctor> genericServiceDoctor;
-    private GenericService<MedicalExamination> genericServiceME;
+    private GenericService<Patient> genericServicePatient;
 
     @Autowired
-    public PatientController(AbstractDidacticService didacticService, GenericService<Doctor> genericServiceDoctor, GenericService<MedicalExamination> genericServiceME) {
+    public PatientController(AbstractDidacticService didacticService,
+                             GenericRepository<Patient> patientRepo) {
         this.didacticService = didacticService;
-        this.genericServiceDoctor = genericServiceDoctor;
-        this.genericServiceME = genericServiceME;
+        this.genericServicePatient = new GenericService<>(patientRepo);
     }
 
-
-    // Create new medical Examination
+    // Creation Patient
     @PostMapping()
-    public ResponseEntity<MedicalExaminationDto> createMedicalExamination(@RequestBody MedicalExaminationDto medicalExaminationDto){
+    public ResponseEntity<PatientDto> createPatient(@RequestBody PatientDto patientDto){
 
-        MedicalExamination mD = medicalExaminationDto.toMedicalExamination();
-        var resultMedicalExamination = this.genericServiceME.create(mD);
-        return ResponseEntity.created(URI.create("personalArea/patient"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
+        Patient patient = patientDto.toPatient();
+        var resultPatient = genericServicePatient.create(patient);
+        return ResponseEntity.created(URI.create("api/patient"+patient.getId())).body(PatientDto.fromPatient(resultPatient));
     }
 
-    // Find Doctor by specialization
-    @GetMapping
-    public ResponseEntity<Iterable<DoctorDto>> findDoctorBySpecialization(String part){
-
-        Iterable<Doctor> doctor = didacticService.findDoctorBySpecialization(part);
-        return ResponseEntity.ok().body(DoctorDto.fromDoctorIterable(doctor));
+    // Insert Patient
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updatePatient(@RequestBody PatientDto patientDto,
+                                              @PathVariable long id){
+        if (patientDto.getId() != id){
+            return ResponseEntity.badRequest().build();
+        }
+        Patient patient = patientDto.toPatient();
+        try {
+            genericServicePatient.update(patient);
+            return ResponseEntity.noContent().build();
+        } catch (DataException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        } catch (EntityNotFoundException e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
     }
 
+    // Delete Patient
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePatientById(@PathVariable long id){
+        genericServicePatient.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    // Find all Patients
+    @GetMapping()
+    public ResponseEntity<Iterable<PatientDto>> findAllPatients(){
 
-
-    // find all the medical examinations
-
-    /*
-     ************************************
-     * ********************************
-     * ***********************************
-     * *********************************
-     * ******************************
-     */
-
-
-
-
-    // Deleting medical examination
-    /*
-     ************************************
-     * ********************************
-     * ***********************************
-     * *********************************
-     * ******************************
-     */
+        Iterable<Patient> patientIterable = genericServicePatient.findAll();
+        return ResponseEntity.ok().body(PatientDto.fromPatientIterable(patientIterable));
+    }
 
 }

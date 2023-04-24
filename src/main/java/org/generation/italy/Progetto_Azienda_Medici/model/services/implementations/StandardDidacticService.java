@@ -2,6 +2,7 @@ package org.generation.italy.Progetto_Azienda_Medici.model.services.implementati
 
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.AdminRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.DoctorRepository;
+import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.MedicalExaminationRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.PatientRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
@@ -16,13 +17,15 @@ public class StandardDidacticService implements AbstractDidacticService{
     private DoctorRepository doctorRepo;
     private PatientRepository patientRepo;
     private AdminRepository adminRepository;
+    private MedicalExaminationRepository examinationRepository;
 
     @Autowired
     public StandardDidacticService(DoctorRepository doctorRepo, PatientRepository patientRepo,
-                                   AdminRepository adminRepository) {
+                                   AdminRepository adminRepository, MedicalExaminationRepository examinationRepository) {
         this.doctorRepo = doctorRepo;
         this.patientRepo = patientRepo;
         this.adminRepository = adminRepository;
+        this.examinationRepository = examinationRepository;
     }
 
     //DOCTOR

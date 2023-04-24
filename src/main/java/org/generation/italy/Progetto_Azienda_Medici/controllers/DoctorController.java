@@ -1,12 +1,10 @@
 package org.generation.italy.Progetto_Azienda_Medici.controllers;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.generation.italy.Progetto_Azienda_Medici.dtos.MedicalExaminationDto;
-import org.generation.italy.Progetto_Azienda_Medici.dtos.PatientDto;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Admin;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.DoctorDto;
+import org.generation.italy.Progetto_Azienda_Medici.dtos.SimpleDoctorDto;
+import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.GenericRepository;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.GenericService;
 import org.hibernate.exception.DataException;
@@ -17,42 +15,39 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "personalArea/doctor")
+@RequestMapping(value = "api/doctor")
 public class DoctorController {
 
 
     private AbstractDidacticService didacticService;
-    private GenericService<Patient> genericServicePatient;
-    private GenericService<MedicalExamination> medicalExaminationService;
+    private GenericService<Doctor> genericServiceDoctor;
 
     @Autowired
-    public DoctorController(AbstractDidacticService didacticService, GenericService<Patient> genericServicePatient, GenericService<MedicalExamination> medicalExaminationService) {
+    public DoctorController(AbstractDidacticService didacticService,
+                            GenericRepository<Doctor> doctorRepo) {
         this.didacticService = didacticService;
-        this.genericServicePatient = genericServicePatient;
-        this.medicalExaminationService = medicalExaminationService;
+        this.genericServiceDoctor = new GenericService<>(doctorRepo);
     }
 
-    // DOCTORS METHODS
-
-    // Creation Patient
+    // Creation Doctor
     @PostMapping()
-    public ResponseEntity<PatientDto> createPatient(@RequestBody PatientDto patientDto){
+    public ResponseEntity<DoctorDto> createDoctor(@RequestBody DoctorDto doctorDto){
 
-        Patient patient = patientDto.toPatient();
-        var resultPatient = this.genericServicePatient.create(patient);
-        return ResponseEntity.created(URI.create("personalArea/doctor"+patient.getId())).body(PatientDto.fromPatient(resultPatient));
+        Doctor doctor = doctorDto.toDoctor();
+        var resultDoctor = genericServiceDoctor.create(doctor);
+        return  ResponseEntity.created(URI.create("api/doctor"+doctor.getId())).body(DoctorDto.fromDoctor(resultDoctor));
     }
 
-    // Insert Patient
+    // Insert Doctor
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePatient(@RequestBody PatientDto patientDto,
-                                              @PathVariable long id){
-        if (patientDto.getId() != id){
+    public ResponseEntity<Void> updateDoctor(@RequestBody DoctorDto doctorDto,
+                                             @PathVariable long id){
+        if (doctorDto.getId() != id){
             return ResponseEntity.badRequest().build();
         }
-        Patient patient = patientDto.toPatient();
+        Doctor doctor = doctorDto.toDoctor();
         try {
-            this.genericServicePatient.update(patient);
+            this.genericServiceDoctor.update(doctor);
             return ResponseEntity.noContent().build();
         } catch (DataException e) {
             e.printStackTrace();
@@ -63,55 +58,27 @@ public class DoctorController {
         }
     }
 
-    // Delete Patient
+    // Delete Doctor
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePatientById(@PathVariable long id){
-        this.genericServicePatient.deleteById(id);
+    public ResponseEntity<Void> deleteDoctorById(@PathVariable long id){
+        genericServiceDoctor.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-
-    // Find all his Patients
+    // Find all doctors
     @GetMapping()
-    public ResponseEntity<Iterable<PatientDto>> findAllDoctorPatients(String part){
+    public ResponseEntity<Iterable<DoctorDto>> findAllDoctors(){
 
-        Iterable<Patient> patientIterable = this.didacticService.findPatientByName(part);
-        return ResponseEntity.ok().body(PatientDto.fromPatientIterable(patientIterable));
+        Iterable<Doctor> doctorIterable = genericServiceDoctor.findAll();
+        return ResponseEntity.ok().body(DoctorDto.fromDoctorIterable(doctorIterable));
     }
 
-
-
-
-    // DOCTOR'S MEDICAL EXAMINATIONS METHODS
-
-
-    // Create new medical Examination
-    @PostMapping()
-    public ResponseEntity<MedicalExaminationDto> createMedicalExamination(@RequestBody MedicalExaminationDto medicalExaminationDto){
-
-        MedicalExamination mD = medicalExaminationDto.toMedicalExamination();
-        var resultMedicalExamination = this.medicalExaminationService.create(mD);
-        return ResponseEntity.created(URI.create("personalArea/doctor"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
+    // Find Doctor by specialization
+    @GetMapping("/{part}")
+    public ResponseEntity<Iterable<SimpleDoctorDto>> findDoctorBySpecialization(@PathVariable String part){
+        Iterable<Doctor> doctor = didacticService.findDoctorBySpecialization(part);
+        return ResponseEntity.ok().body(SimpleDoctorDto.fromSimpleDoctorIterable(doctor));
     }
-
-    // Delete Patient medical examination
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMedicalExamination(@PathVariable long id){
-        this.medicalExaminationService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-
-    // find all the medical examinations
-
-    /*
-    ************************************
-    * ********************************
-    * ***********************************
-    * *********************************
-    * ******************************
-     */
-
 
 }
 
