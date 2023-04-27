@@ -25,21 +25,6 @@ public class ApplicationConfig {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
-  /*@Bean
-  public UserDetailsService userDetailsService2() {
-    class NonVolevoCrearti implements UserDetailsService{
-
-      @Override
-      public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-      }
-    }
-    NonVolevoCrearti z =new NonVolevoCrearti();
-    return z;
-    //return username -> repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-  }*/
-
   @Bean
   public AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

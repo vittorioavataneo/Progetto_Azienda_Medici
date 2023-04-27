@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
   private final AuthenticationService service;
 
-  @PostMapping("/registerPatient")
+  @PostMapping("/registration/patient")
   public ResponseEntity<AuthenticationResponse> registerUser(
       @RequestBody RegisterRequestUser request
   ) {
     return ResponseEntity.ok(service.registerUser(request));
   }
 
-  @PostMapping("/registerDoctor")
+  @PostMapping("/registration/doctor")
   public ResponseEntity<AuthenticationResponse> registerDoctor(
           @RequestBody RegisterRequestDoctor request
   ) {
     return ResponseEntity.ok(service.registerDoctor(request));
   }
 
-  @PostMapping("/registerAdmin")
+  @PostMapping("/registration/admin")
   public ResponseEntity<AuthenticationResponse> registerAdmin(
           @RequestBody RegisterRequestAdmin request
   ) {

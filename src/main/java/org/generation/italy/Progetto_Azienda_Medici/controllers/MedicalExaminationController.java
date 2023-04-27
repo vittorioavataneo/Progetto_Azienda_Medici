@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "api/medExamination")
+@RequestMapping(value = "api/auth/medExamination")
 public class MedicalExaminationController {
 
     private AbstractDidacticService didacticService;
@@ -32,7 +32,7 @@ public class MedicalExaminationController {
     public ResponseEntity<MedicalExaminationDto> createMedicalExamination(@RequestBody MedicalExaminationDto medicalExaminationDto){
         MedicalExamination mD = medicalExaminationDto.toMedicalExamination();
         var resultMedicalExamination = medicalExaminationService.create(mD);
-        return ResponseEntity.created(URI.create("api/medExamination"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
+        return ResponseEntity.created(URI.create("api/auth/medExamination"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
     }
 
     // Insert Doctor

@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS user_p, token, persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
+DROP TABLE IF EXISTS app_user, token, persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
 DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato, role, token_type;
 
 
@@ -14,18 +14,19 @@ CREATE TYPE token_type              AS ENUM ('BEARER');
 
 --TABLE
 --Tabella user_p
-CREATE TABLE user_p (
-    id_user_p       INT             NOT NULL,
+CREATE TABLE app_user (
+    id_app_user     INT             NOT NULL,
     email           VARCHAR(50)     NOT NULL,
     password        VARCHAR(500)    NOT NULL,
     role            role            NOT NULL,
 
-    CONSTRAINT PK_user_p PRIMARY KEY(id_user_p)
+    CONSTRAINT PK_app_user PRIMARY KEY(id_app_user)
+
 );
-CREATE SEQUENCE user_p_sequence
+CREATE SEQUENCE app_user_sequence
      start 1
      increment 1
-     OWNED BY user_p.id_user_p;
+     OWNED BY app_user.id_app_user;
 
 
 --Table token
@@ -36,12 +37,12 @@ CREATE TABLE token(
     token_type      token_type      NOT NULL,
     revoked         BOOLEAN         NOT NULL,
     expired         BOOLEAN         NOT NULL,
-    id_user_p       BIGINT          NOT NULL,
+    id_app_user     INT             NOT NULL,
 
     CONSTRAINT PK_token PRIMARY KEY(id_token),
 
-    CONSTRAINT FK_token_user_p FOREIGN KEY(id_user_p )
-            REFERENCES user_p(id_user_p ) ON DELETE CASCADE
+    CONSTRAINT FK_token_app_user FOREIGN KEY(id_app_user )
+            REFERENCES app_user(id_app_user) ON DELETE CASCADE
 
 );
 CREATE SEQUENCE token_sequence
@@ -60,12 +61,12 @@ CREATE TABLE persona (
       data_di_nascita   DATE            NOT NULL,
       telefono          VARCHAR(20),
       sesso             sesso           NOT NULL,
-      id_user_p         BIGINT          NOT NULL,
+      id_app_user       INT,
 
       CONSTRAINT PK_persona PRIMARY KEY(id_persona),
 
-      CONSTRAINT FK_persona_user_p FOREIGN KEY(id_user_p )
-            REFERENCES user_p(id_user_p ) ON DELETE CASCADE
+      CONSTRAINT FK_persona_app_user FOREIGN KEY(id_app_user )
+            REFERENCES app_user(id_app_user) ON DELETE CASCADE
 );
 CREATE SEQUENCE persona_sequence
       start 1

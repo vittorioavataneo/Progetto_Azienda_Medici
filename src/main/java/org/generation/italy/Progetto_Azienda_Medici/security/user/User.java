@@ -1,8 +1,10 @@
 package org.generation.italy.Progetto_Azienda_Medici.security.user;
 
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.generation.italy.Progetto_Azienda_Medici.security.token.Token;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +19,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user_p")
+@Table(name = "app_user")
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue(generator = "user_p_generator", strategy = GenerationType.SEQUENCE)
-  @SequenceGenerator(name = "user_p_generator", sequenceName = "user_p_sequence", allocationSize = 1)
-  @Column(name= "id_user_p")
+  @GeneratedValue(generator = "app_user_generator", strategy = GenerationType.SEQUENCE)
+  @SequenceGenerator(name = "app_user_generator", sequenceName = "app_user_sequence", allocationSize = 1)
+  @Column(name= "id_app_user")
   private Integer id;
 
   private String email;
@@ -31,6 +33,8 @@ public class User implements UserDetails {
   private String password;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "role", columnDefinition = "role")
+  @Type(PostgreSQLEnumType.class)
   private Role role;
 
   @OneToMany(mappedBy = "user")

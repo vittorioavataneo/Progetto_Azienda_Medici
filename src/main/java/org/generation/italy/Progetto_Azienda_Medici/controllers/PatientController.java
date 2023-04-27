@@ -12,9 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "api/patient")
+@RequestMapping(value = "api/auth/patient")
 public class PatientController {
 
     private AbstractDidacticService didacticService;
@@ -33,7 +34,7 @@ public class PatientController {
 
         Patient patient = patientDto.toPatient();
         var resultPatient = genericServicePatient.create(patient);
-        return ResponseEntity.created(URI.create("api/patient"+patient.getId())).body(PatientDto.fromPatient(resultPatient));
+        return ResponseEntity.created(URI.create("api/auth/patient"+patient.getId())).body(PatientDto.fromPatient(resultPatient));
     }
 
     // Insert Patient
@@ -57,7 +58,7 @@ public class PatientController {
     }
 
     // Delete Patient
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePatientById(@PathVariable long id){
         genericServicePatient.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -69,6 +70,15 @@ public class PatientController {
 
         Iterable<Patient> patientIterable = genericServicePatient.findAll();
         return ResponseEntity.ok().body(PatientDto.fromPatientIterable(patientIterable));
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<PatientDto> findPatientById(@PathVariable long id){
+        Optional<Patient> op = genericServicePatient.findById(id);
+        if (op.isEmpty()){
+            return  ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(PatientDto.fromPatient(op.get()));
     }
 
 }

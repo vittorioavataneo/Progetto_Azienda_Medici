@@ -42,7 +42,7 @@ public abstract class Person {
     protected Sex sex;
 
     @OneToOne
-    @JoinColumn(name = "id_user_p")
+    @JoinColumn(name = "id_app_user")
     protected User user;
 
     public Person(long id, String firstname, String lastname, LocalDate dob,

@@ -6,6 +6,8 @@ import lombok.*;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 import org.hibernate.annotations.Type;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -20,7 +22,7 @@ public class Token {
   @Column(name= "id_token")
   public Integer id;
 
-  @Column(unique = true)
+  @Column(unique = true, name = "token_code")
   public String token;
 
   @Enumerated(EnumType.STRING)
@@ -33,6 +35,8 @@ public class Token {
   public boolean expired;
 
   @ManyToOne(fetch =  FetchType.LAZY)
-  @JoinColumn(name = "id_user_p")
+  @JoinColumn(name = "id_app_user")
   public User user;
+
+
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping (value = "api/admin")
+@RequestMapping (value = "api/auth/admin")
 public class AdminController {
 
     private AbstractDidacticService didacticService;
@@ -34,7 +34,7 @@ public class AdminController {
 
         Admin admin = adminDto.toAdmin();
         var resultAdmin = genericServiceAdmin.create(admin);
-        return ResponseEntity.created(URI.create("api/admin"+admin.getId())).body(AdminDto.fromAdmin(resultAdmin));
+        return ResponseEntity.created(URI.create("api/auth/admin"+admin.getId())).body(AdminDto.fromAdmin(resultAdmin));
     }
 
     // Insert Admin

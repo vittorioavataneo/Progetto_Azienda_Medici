@@ -17,9 +17,9 @@ public class RegisterRequestUser {
   private String firstname;
   private String lastname;
   private String dob;
+  private String cellNumber;
   private String sex;
   private String email;
-  private String cellNumber;
   private String password;
   private String taxCode;
 
