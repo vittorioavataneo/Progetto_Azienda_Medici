@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@CrossOrigin
 @RestController
 @RequestMapping (value = "api/auth/admin")
 public class AdminController {

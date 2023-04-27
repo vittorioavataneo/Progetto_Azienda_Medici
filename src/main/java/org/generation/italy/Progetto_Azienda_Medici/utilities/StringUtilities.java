@@ -27,7 +27,7 @@ public class StringUtilities {
 
     public static <T extends Enum<T>> T fromStringToEnum(Class<T> enumClass, String value) throws IllegalArgumentException {
         try {
-            return Enum.valueOf(enumClass, value.toUpperCase());
+            return Enum.valueOf(enumClass, value);
         }catch (IllegalArgumentException e){
             e.printStackTrace();
             throw new IllegalArgumentException("La stringa " + value + " non corrisponde a un valore valido per l'enum " + enumClass.getSimpleName());

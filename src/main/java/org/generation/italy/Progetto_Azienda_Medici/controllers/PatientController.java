@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "api/auth/patient")
 public class PatientController {
