@@ -1,11 +1,8 @@
 package org.generation.italy.Progetto_Azienda_Medici.controllers;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.generation.italy.Progetto_Azienda_Medici.dtos.DoctorDto;
 import org.generation.italy.Progetto_Azienda_Medici.dtos.MedicalExaminationDto;
-import org.generation.italy.Progetto_Azienda_Medici.dtos.SimpleDoctorDto;
 import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.GenericRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.GenericService;

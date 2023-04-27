@@ -72,6 +72,4 @@ public class AdminController {
         return ResponseEntity.ok().body(AdminDto.fromAdminIterable(admidIterable));
     }
 
-
-
 }
