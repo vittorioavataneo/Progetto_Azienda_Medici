@@ -72,6 +72,7 @@ public class DoctorDto extends PersonDto{
     }
 
     public static Iterable<DoctorDto> fromDoctorIterable(Iterable<Doctor> doctorIterable){
+
         return StreamSupport.stream(doctorIterable.spliterator(), false)
                 .map(DoctorDto::fromDoctor)
                 .toList();
