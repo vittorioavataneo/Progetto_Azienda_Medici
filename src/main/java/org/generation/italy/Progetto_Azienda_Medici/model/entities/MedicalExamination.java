@@ -64,7 +64,7 @@ public class MedicalExamination {
     @Enumerated(EnumType.STRING)
     @Column(name = "stato", columnDefinition = "stato")
     @Type(PostgreSQLEnumType.class)
-    public State state;
+    private State state;
 
     public MedicalExamination(long id, boolean billing, Doctor doctor, Patient patient, LocalDate reservationDate,
                               Contact contact, Specialization specialization, Payment payment, String paymentNote,

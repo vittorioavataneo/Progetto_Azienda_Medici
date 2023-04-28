@@ -1,6 +1,7 @@
 package org.generation.italy.Progetto_Azienda_Medici.security.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,32 +43,37 @@ public class AuthenticationService {
 
 
   public AuthenticationResponse registerUser(RegisterRequestUser request) {
-    var user = User.builder()
-        .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
-        .role(Role.USER)
-        .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
-    patientRepository.save(
-            new Patient(
-                    0,
-                    request.getFirstname(),
-                    request.getLastname(),
-                    fromJSONString(request.getDob()),
-                    request.getCellNumber(),
-                    fromStringToEnum(Sex.class, request.getSex()),
-                    user,
-                    request.getTaxCode(),
-                    new HashSet<>()
-            )
-    );
-    return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+    if(repository.findByEmail(request.getEmail()).isEmpty()) {
+      var user = User.builder()
+              .email(request.getEmail())
+              .password(passwordEncoder.encode(request.getPassword()))
+              .role(Role.USER)
+              .build();
+      var savedUser = repository.save(user);
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      saveUserToken(savedUser, jwtToken);
+      patientRepository.save(
+              new Patient(
+                      0,
+                      request.getFirstname(),
+                      request.getLastname(),
+                      fromJSONString(request.getDob()),
+                      request.getCellNumber(),
+                      fromStringToEnum(Sex.class, request.getSex()),
+                      user,
+                      request.getTaxCode(),
+                      new HashSet<>()
+              )
+      );
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    }
+    else {
+      throw new EntityExistsException("");
+    }
   }
 
 

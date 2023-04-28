@@ -3,7 +3,7 @@ package org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
 import org.springframework.data.jpa.repository.Query;
 
-public interface MedicalExaminationRepository extends GenericRepository<MedicalExamination>{
+public interface MedicalExaminationRepository extends GenericRepository<MedicalExamination>, MedicalExaminationCustomRepository{
 
     @Query("""
             select me
