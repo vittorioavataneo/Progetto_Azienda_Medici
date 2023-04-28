@@ -7,6 +7,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.Gene
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.GenericService;
+import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.StandardDidacticService;
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,11 @@ public class DoctorController {
     public ResponseEntity<Iterable<SimpleDoctorDto>> findDoctorBySpecialization(@PathVariable String part){
         Iterable<Doctor> doctor = didacticService.findDoctorBySpecialization(part);
         return ResponseEntity.ok().body(SimpleDoctorDto.fromSimpleDoctorIterable(doctor));
+    }
+    @GetMapping("/{part}")
+    public ResponseEntity<Iterable<SimpleDoctorDto>> findDoctorByName(@PathVariable String part){
+        Iterable<Doctor> doc = didacticService.findDoctorByName(part);
+        return  ResponseEntity.ok().body(SimpleDoctorDto.fromSimpleDoctorIterable(doc));
     }
 
 }

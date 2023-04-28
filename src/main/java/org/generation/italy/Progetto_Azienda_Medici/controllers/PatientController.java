@@ -81,5 +81,10 @@ public class PatientController {
         }
         return ResponseEntity.ok().body(PatientDto.fromPatient(op.get()));
     }
+    @GetMapping("/find/{part}")
+    public ResponseEntity<Iterable<PatientDto>> findPatientByName(@PathVariable String part){
+        Iterable<Patient> pat = didacticService.findPatientByName(part);
+        return ResponseEntity.ok().body(PatientDto.fromPatientIterable(pat));
+    }
 
 }
