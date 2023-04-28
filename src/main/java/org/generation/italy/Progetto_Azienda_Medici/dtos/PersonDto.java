@@ -25,6 +25,15 @@ public abstract class PersonDto {
     protected String cellNumber;
     protected User user;
 
+    public PersonDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.dob = dob;
+        this.sex = sex;
+        this.cellNumber = cellNumber;
+    }
+
     public PersonDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber, User user) {
         this.id = id;
         this.firstname = firstname;
