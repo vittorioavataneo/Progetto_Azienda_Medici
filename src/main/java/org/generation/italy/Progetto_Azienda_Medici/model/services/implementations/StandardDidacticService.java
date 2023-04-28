@@ -9,8 +9,11 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamin
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
+import org.generation.italy.Progetto_Azienda_Medici.security.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class StandardDidacticService implements AbstractDidacticService{
@@ -19,14 +22,17 @@ public class StandardDidacticService implements AbstractDidacticService{
     private PatientRepository patientRepo;
     private AdminRepository adminRepository;
     private MedicalExaminationRepository examinationRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public StandardDidacticService(DoctorRepository doctorRepo, PatientRepository patientRepo,
-                                   AdminRepository adminRepository, MedicalExaminationRepository examinationRepository) {
+                                   AdminRepository adminRepository, MedicalExaminationRepository examinationRepository,
+                                   UserRepository userRepository) {
         this.doctorRepo = doctorRepo;
         this.patientRepo = patientRepo;
         this.adminRepository = adminRepository;
         this.examinationRepository = examinationRepository;
+        this.userRepository = userRepository;
     }
 
     //DOCTOR
@@ -59,6 +65,12 @@ public class StandardDidacticService implements AbstractDidacticService{
     @Override
     public Iterable<MedicalExamination> findAllMedicalExaminationByPatientId(long id) {
         return examinationRepository.findAllMedicalExaminationByPatientId(id);
+    }
+
+    //USER
+    @Override
+    public Optional<Long> findPersonIdByUserEmail(String email) {
+        return userRepository.findPersonIdByUserEmail(email);
     }
 
 }
