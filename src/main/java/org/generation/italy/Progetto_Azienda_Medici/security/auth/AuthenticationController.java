@@ -37,11 +37,25 @@ public class AuthenticationController {
     return ResponseEntity.ok(service.registerAdmin(request));
   }
 
-  @PostMapping("/authenticate")
-  public ResponseEntity<AuthenticationResponse> authenticate(
+  @PostMapping("/authentication/patient")
+  public ResponseEntity<AuthenticationResponse> authenticatePatient(
       @RequestBody AuthenticationRequest request
   ) {
-    return ResponseEntity.ok(service.authenticate(request));
+    return ResponseEntity.ok(service.authenticatePatient(request));
+  }
+
+  @PostMapping("/authentication/doctor")
+  public ResponseEntity<AuthenticationResponse> authenticateDoctor(
+          @RequestBody AuthenticationRequest request
+  ) {
+    return ResponseEntity.ok(service.authenticateDoctor(request));
+  }
+
+  @PostMapping("/authentication/admin")
+  public ResponseEntity<AuthenticationResponse> authenticateAdmin(
+          @RequestBody AuthenticationRequest request
+  ) {
+    return ResponseEntity.ok(service.authenticateAdmin(request));
   }
 
   @PostMapping("/refresh-token")

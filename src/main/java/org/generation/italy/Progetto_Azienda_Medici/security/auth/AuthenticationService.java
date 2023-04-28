@@ -16,6 +16,7 @@ import org.generation.italy.Progetto_Azienda_Medici.security.user.Role;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.UserRepository;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -129,7 +130,7 @@ public class AuthenticationService {
   }
 
 
-  public AuthenticationResponse authenticate(AuthenticationRequest request) {
+  public AuthenticationResponse authenticatePatient(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
@@ -138,15 +139,72 @@ public class AuthenticationService {
     );
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    revokeAllUserTokens(user);
-    saveUserToken(user, jwtToken);
-    return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+    Role role = user.getRole();
+    if (role == Role.USER) {
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      revokeAllUserTokens(user);
+      saveUserToken(user, jwtToken);
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    } else {
+      throw new AccessDeniedException("Accesso negato: non sei un paziente");
+    }
   }
+
+
+  public AuthenticationResponse authenticateDoctor(AuthenticationRequest request) {
+    authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()
+            )
+    );
+    var user = repository.findByEmail(request.getEmail())
+            .orElseThrow();
+    Role role = user.getRole();
+    if (role == Role.PROFESSIONAL) {
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      revokeAllUserTokens(user);
+      saveUserToken(user, jwtToken);
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    } else {
+      throw new AccessDeniedException("Accesso negato: non sei un dottore");
+    }
+  }
+
+
+  public AuthenticationResponse authenticateAdmin(AuthenticationRequest request) {
+    authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()
+            )
+    );
+    var user = repository.findByEmail(request.getEmail())
+            .orElseThrow();
+    Role role = user.getRole();
+    if (role == Role.ADMIN) {
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      revokeAllUserTokens(user);
+      saveUserToken(user, jwtToken);
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    } else {
+      throw new AccessDeniedException("Accesso negato: non sei un admin");
+    }
+  }
+
+
 
   private void saveUserToken(User user, String jwtToken) {
     var token = Token.builder()
