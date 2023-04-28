@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.rmi.AlreadyBoundException;
 import java.util.HashSet;
 
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
@@ -42,86 +43,97 @@ public class AuthenticationService {
 
 
   public AuthenticationResponse registerUser(RegisterRequestUser request) {
-    var user = User.builder()
-        .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
-        .role(Role.USER)
-        .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
-    patientRepository.save(
-            new Patient(
-                    0,
-                    request.getFirstname(),
-                    request.getLastname(),
-                    fromJSONString(request.getDob()),
-                    request.getCellNumber(),
-                    fromStringToEnum(Sex.class, request.getSex()),
-                    user,
-                    request.getTaxCode(),
-                    new HashSet<>()
-            )
-    );
-    return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+    if (repository.findByEmail(request.getEmail()).isEmpty()) {
+      var user = User.builder()
+              .email(request.getEmail())
+              .password(passwordEncoder.encode(request.getPassword()))
+              .role(Role.USER)
+              .build();
+      var savedUser = repository.save(user);
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      saveUserToken(savedUser, jwtToken);
+      patientRepository.save(
+              new Patient(
+                      0,
+                      request.getFirstname(),
+                      request.getLastname(),
+                      fromJSONString(request.getDob()),
+                      request.getCellNumber(),
+                      fromStringToEnum(Sex.class, request.getSex()),
+                      user,
+                      request.getTaxCode(),
+                      new HashSet<>()
+              )
+      );
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    }
+    else {
+      throw new RuntimeException ("User with this email already exists");
+    }
   }
 
 
+
   public AuthenticationResponse registerDoctor(RegisterRequestDoctor request) {
-    var user = User.builder()
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .role(Role.PROFESSIONAL)
-            .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
-    Specialization specialization = specializationRepository.save(
-            new Specialization(
-                    0,
-                    request.getSpecializationName()
-            )
-    );
+    if (repository.findByEmail(request.getEmail()).isEmpty()) {
+      var user = User.builder()
+              .email(request.getEmail())
+              .password(passwordEncoder.encode(request.getPassword()))
+              .role(Role.PROFESSIONAL)
+              .build();
+      var savedUser = repository.save(user);
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      saveUserToken(savedUser, jwtToken);
+      Specialization specialization = specializationRepository.save(
+              new Specialization(
+                      0,
+                      request.getSpecializationName()
+              )
+      );
 
-    Address address = addressRepository.save(
-            new Address(
-                    0,
-                    request.getStreet(),
-                    request.getCap(),
-                    request.getCity(),
-                    request.getProvince(),
-                    request.getCountry()
-            )
-    );
+      Address address = addressRepository.save(
+              new Address(
+                      0,
+                      request.getStreet(),
+                      request.getCap(),
+                      request.getCity(),
+                      request.getProvince(),
+                      request.getCountry()
+              )
+      );
 
-    doctorRepository.save(
-            new Doctor(
-                    0,
-                    request.getFirstname(),
-                    request.getLastname(),
-                    fromJSONString(request.getDob()),
-                    request.getCellNumber(),
-                    fromStringToEnum(Sex.class, request.getSex()),
-                    user,
-                    address,
-                    request.getDoctorCode(),
-                    specialization,
-                    new HashSet<>()
-            )
-    );
-    return AuthenticationResponse.builder()
-            .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-            .build();
+      doctorRepository.save(
+              new Doctor(
+                      0,
+                      request.getFirstname(),
+                      request.getLastname(),
+                      fromJSONString(request.getDob()),
+                      request.getCellNumber(),
+                      fromStringToEnum(Sex.class, request.getSex()),
+                      user,
+                      address,
+                      request.getDoctorCode(),
+                      specialization,
+                      new HashSet<>()
+              )
+      );
+      return AuthenticationResponse.builder()
+              .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+              .build();
+    } else {
+      throw new RuntimeException("User with this email already exists");
+    }
   }
 
 
   public AuthenticationResponse registerAdmin(RegisterRequestAdmin request) {
+    if (repository.findByEmail(request.getEmail()).isEmpty()) {
     var user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
@@ -149,8 +161,10 @@ public class AuthenticationService {
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
             .build();
+    } else {
+      throw new RuntimeException("User with this email already exists");
+    }
   }
-
 
   public AuthenticationResponse authenticatePatient(AuthenticationRequest request) {
     authenticationManager.authenticate(
