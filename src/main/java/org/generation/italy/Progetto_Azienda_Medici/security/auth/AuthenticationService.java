@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.AdminRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.DoctorRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.PatientRepository;
+import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.*;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 import org.generation.italy.Progetto_Azienda_Medici.security.config.JwtService;
 import org.generation.italy.Progetto_Azienda_Medici.security.token.Token;
@@ -39,6 +37,8 @@ public class AuthenticationService {
   private final PatientRepository patientRepository;
   private final DoctorRepository doctorRepository;
   private final AdminRepository adminRepository;
+  private final AddressRepository addressRepository;
+  private final SpecializationRepository specializationRepository;
 
 
   public AuthenticationResponse registerUser(RegisterRequestUser request) {
@@ -70,12 +70,35 @@ public class AuthenticationService {
         .build();
   }
 
+
   public AuthenticationResponse registerDoctor(RegisterRequestDoctor request) {
     var user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(Role.USER)
+            .role(Role.PROFESSIONAL)
             .build();
+    var savedUser = repository.save(user);
+    var jwtToken = jwtService.generateToken(user);
+    var refreshToken = jwtService.generateRefreshToken(user);
+    saveUserToken(savedUser, jwtToken);
+    Specialization specialization = specializationRepository.save(
+            new Specialization(
+                    0,
+                    request.getSpecializationName()
+            )
+    );
+
+    Address address = addressRepository.save(
+            new Address(
+                    0,
+                    request.getStreet(),
+                    request.getCap(),
+                    request.getCity(),
+                    request.getProvince(),
+                    request.getCountry()
+            )
+    );
+
     doctorRepository.save(
             new Doctor(
                     0,
@@ -85,28 +108,31 @@ public class AuthenticationService {
                     request.getCellNumber(),
                     fromStringToEnum(Sex.class, request.getSex()),
                     user,
-                    request.getAddress().toAddress(),
+                    address,
                     request.getDoctorCode(),
-                    request.getSpecialization().toSpecialization(),
+                    specialization,
                     new HashSet<>()
             )
     );
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
             .build();
   }
 
+
   public AuthenticationResponse registerAdmin(RegisterRequestAdmin request) {
     var user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(Role.USER)
+            .role(Role.ADMIN)
             .build();
+
+    var savedUser = repository.save(user);
+    var jwtToken = jwtService.generateToken(user);
+    var refreshToken = jwtService.generateRefreshToken(user);
+    saveUserToken(savedUser, jwtToken);
+
     adminRepository.save(
             new Admin(
                     0,
@@ -119,10 +145,6 @@ public class AuthenticationService {
                     request.getAdminCode()
             )
     );
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)

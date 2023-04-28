@@ -20,8 +20,12 @@ public class RegisterRequestDoctor {
     private String email;
     private String cellNumber;
     private String password;
-    private AddressDto address;
+    private String street;
+    private String cap;
+    private String city;
+    private String province;
+    private String country;
     private String doctorCode;
-    private SpecializationDto specialization;
+    private String specializationName;
 
 }
