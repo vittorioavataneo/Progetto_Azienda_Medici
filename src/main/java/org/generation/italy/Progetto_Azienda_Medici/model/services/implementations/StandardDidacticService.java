@@ -44,6 +44,11 @@ public class StandardDidacticService implements AbstractDidacticService{
     @Override
     public Iterable<Patient> findPatientByName(String part) { return patientRepo.findByName(part); }
 
+    @Override
+    public Iterable<Patient> findAllPatientByDoctorId(long id) {
+        return patientRepo.findAllPatientByDoctorId(id);
+    }
+
 
     //MEDICAL EXAMINATION
     @Override

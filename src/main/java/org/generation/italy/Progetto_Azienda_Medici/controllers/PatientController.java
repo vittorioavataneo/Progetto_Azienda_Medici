@@ -73,7 +73,7 @@ public class PatientController {
         return ResponseEntity.ok().body(PatientDto.fromPatientIterable(patientIterable));
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/patient/{id}")
     public ResponseEntity<PatientDto> findPatientById(@PathVariable long id){
         Optional<Patient> op = genericServicePatient.findById(id);
         if (op.isEmpty()){
@@ -85,6 +85,21 @@ public class PatientController {
     public ResponseEntity<Iterable<PatientDto>> findPatientByName(@PathVariable String part){
         Iterable<Patient> pat = didacticService.findPatientByName(part);
         return ResponseEntity.ok().body(PatientDto.fromPatientIterable(pat));
+    }
+
+    //find patient by name
+    @GetMapping("/find/patient/name/{part}")
+    public ResponseEntity<Iterable<PatientDto>> findPatientByName(@PathVariable String part){
+        Iterable<Patient> pat = didacticService.findPatientByName(part);
+        return ResponseEntity.ok().body(PatientDto.fromPatientIterable(pat));
+    }
+
+    // Find all Patients of doctor
+    @GetMapping("find/patientOfDoctor/{id}")
+    public ResponseEntity<Iterable<PatientDto>> findAllPatientsByDoctorId(@PathVariable long id){
+
+        Iterable<Patient> patientIterable = didacticService.findAllPatientByDoctorId(id);
+        return ResponseEntity.ok().body(PatientDto.fromPatientIterable(patientIterable));
     }
 
 }

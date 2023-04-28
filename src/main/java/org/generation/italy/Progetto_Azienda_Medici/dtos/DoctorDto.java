@@ -24,6 +24,16 @@ public class DoctorDto extends PersonDto{
     private Set<MedicalExaminationDto> medicalExaminationsDto;
 
     public DoctorDto(long id, String firstname, String lastname, String dob,
+                     String sex, String cellNumber, AddressDto address,
+                     String doctorCode, SpecializationDto specialization, Set<MedicalExaminationDto> medicalExaminationsDto) {
+        super(id, firstname, lastname, dob, sex, cellNumber);
+        this.address = address;
+        this.doctorCode = doctorCode;
+        this.specialization = specialization;
+        this.medicalExaminationsDto = medicalExaminationsDto;
+    }
+
+    public DoctorDto(long id, String firstname, String lastname, String dob,
                      String sex, String cellNumber, User user, AddressDto address,
                      String doctorCode, SpecializationDto specialization, Set<MedicalExaminationDto> medicalExaminationsDto) {
         super(id, firstname, lastname, dob, sex, cellNumber, user);
@@ -41,7 +51,6 @@ public class DoctorDto extends PersonDto{
                 dateNullController(doctor.getDob()),
                 fromEnumToString(doctor.getSex()),
                 doctor.getCellNumber(),
-                doctor.getUser(),
                 AddressDto.fromAddress(doctor.getAddress()),
                 doctor.getDoctorCode(),
                 SpecializationDto.fromSpecialization(doctor.getSpecialization()),

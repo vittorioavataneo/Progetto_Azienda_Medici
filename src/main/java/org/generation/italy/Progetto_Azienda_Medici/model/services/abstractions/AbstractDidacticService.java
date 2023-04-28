@@ -12,6 +12,7 @@ public interface AbstractDidacticService {
 
     //PATIENT
     Iterable<Patient> findPatientByName(String part);
+    Iterable<Patient> findAllPatientByDoctorId(long id);
 
     //MEDICAL EXAMINATION
     Iterable<MedicalExamination> findAllMedicalExaminationByDoctorId(long id);
