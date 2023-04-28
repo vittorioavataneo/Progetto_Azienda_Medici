@@ -11,4 +11,10 @@ public interface PatientRepository extends GenericRepository<Patient> {
             """)
     Iterable<Patient> findByName(String part);
 
+    @Query("""
+            select distinct m.patient
+            from MedicalExamination m
+            where m.doctor.id = :id
+            """)
+    Iterable<Patient> findAllPatientByDoctorId(long id);
 }

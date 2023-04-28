@@ -19,4 +19,5 @@ public interface DoctorRepository extends GenericRepository<Doctor> {
             """)
     Iterable<Doctor> findBySpecialization(String part);
 
+
 }

@@ -81,6 +81,12 @@ public class DoctorController {
         return ResponseEntity.ok().body(SimpleDoctorDto.fromSimpleDoctorIterable(doctor));
     }
 
+    //Find Doctor by name
+    @GetMapping("/{part}")
+    public ResponseEntity<Iterable<SimpleDoctorDto>> findDoctorByName(@PathVariable String part){
+        Iterable<Doctor> doc = didacticService.findDoctorByName(part);
+        return  ResponseEntity.ok().body(SimpleDoctorDto.fromSimpleDoctorIterable(doc));
+    }
 }
 
 
