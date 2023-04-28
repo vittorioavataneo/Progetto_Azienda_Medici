@@ -5,6 +5,8 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamin
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Specialization;
 
+import java.util.Optional;
+
 public interface AbstractDidacticService {
     //DOCTOR
     Iterable<Doctor> findDoctorByName(String part);
@@ -17,5 +19,8 @@ public interface AbstractDidacticService {
     //MEDICAL EXAMINATION
     Iterable<MedicalExamination> findAllMedicalExaminationByDoctorId(long id);
     Iterable<MedicalExamination> findAllMedicalExaminationByPatientId(long id);
+
+    //USER
+    Optional<Long> findPersonIdByUserEmail(String email);
 
 }
