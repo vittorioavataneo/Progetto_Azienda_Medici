@@ -7,6 +7,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -58,10 +59,7 @@ public class PatientDto extends PersonDto{
                 fromStringToEnum(Sex.class, this.getSex()),
                 this.getUser(),
                 this.getTaxCode(),
-                this.getMedicalExaminationsDto()
-                        .stream()
-                        .map(MedicalExaminationDto::toMedicalExamination)
-                        .collect(Collectors.toSet())
+                new HashSet<>()
         );
     }
 

@@ -7,6 +7,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -68,10 +69,7 @@ public class DoctorDto extends PersonDto{
                 this.getAddress().toAddress(),
                 this.getDoctorCode(),
                 this.getSpecialization().toSpecialization(),
-                this.getMedicalExaminationsDto()
-                        .stream()
-                        .map(MedicalExaminationDto::toMedicalExamination)
-                        .collect(Collectors.toSet())
+                new HashSet<>()
         );
     }
 

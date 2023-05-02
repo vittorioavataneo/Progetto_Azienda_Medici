@@ -23,4 +23,7 @@ public interface AbstractDidacticService {
     //USER
     Optional<Long> findPersonIdByUserEmail(String email);
 
+    //SPECIALIZATION
+    Optional<Specialization> findSpecializationBySpecializationName(String specializationName);
+
 }

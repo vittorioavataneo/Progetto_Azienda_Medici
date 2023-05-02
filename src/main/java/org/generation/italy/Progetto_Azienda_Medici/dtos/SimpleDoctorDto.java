@@ -12,12 +12,15 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 public class SimpleDoctorDto extends SimplePersonDto{
 
-    public SimpleDoctorDto(String firstname, String lastname) {
-        super(firstname, lastname);
+    public SimpleDoctorDto(long id, String firstname, String lastname) {
+        super(id,firstname, lastname);
     }
 
     public static SimpleDoctorDto fromSimpleDoctor(Doctor doctor){
-        return new SimpleDoctorDto(doctor.getFirstname(), doctor.getLastname());
+        return new SimpleDoctorDto(
+                doctor.getId(),
+                doctor.getFirstname(),
+                doctor.getLastname());
     }
 
     public static Iterable<SimpleDoctorDto> fromSimpleDoctorIterable(Iterable<Doctor> doctorIterable){

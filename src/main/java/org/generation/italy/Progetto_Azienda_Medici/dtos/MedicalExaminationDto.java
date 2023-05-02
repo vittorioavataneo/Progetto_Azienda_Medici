@@ -14,7 +14,6 @@ import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtili
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"doctorDto", "patientDto", "specializationDto"})
 public class MedicalExaminationDto {
 
     private long id;
@@ -51,19 +50,16 @@ public class MedicalExaminationDto {
         this.state = state;
     }
 
-    public MedicalExaminationDto(long id, DoctorDto doctorDto, PatientDto patientDto, String doctorName,  String patientName, String reservationDate,
-                                 String contact, SpecializationDto specializationDto, String specialization, String payment,
+    public MedicalExaminationDto(long id, DoctorDto doctorDto, PatientDto patientDto, String reservationDate,
+                                 String contact, SpecializationDto specializationDto, String payment,
                                  String examinationPackage, String note, String paymentNote,
                                  Boolean billing, String state) {
         this.id = id;
         this.doctorDto=doctorDto;
         this.patientDto=patientDto;
-        this.doctorName = doctorName;
-        this.patientName = patientName;
         this.reservationDate = reservationDate;
         this.contact = contact;
         this.specializationDto = specializationDto;
-        this.specialization = specialization;
         this.payment = payment;
         this.examinationPackage = examinationPackage;
         this.note = note;

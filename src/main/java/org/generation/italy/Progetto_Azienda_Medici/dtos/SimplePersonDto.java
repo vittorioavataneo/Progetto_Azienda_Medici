@@ -9,10 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SimplePersonDto {
 
+    protected long id;
     protected String firstname;
     protected String lastname;
 
-    public SimplePersonDto(String firstname, String lastname) {
+    public SimplePersonDto(long id, String firstname, String lastname) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
     }
