@@ -24,10 +24,9 @@ public class PatientDto extends PersonDto{
     private Set<MedicalExaminationDto> medicalExaminationsDto;
 
     public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber,
-                      String taxCode, Set<MedicalExaminationDto> medicalExaminationsDto) {
+                      String taxCode) {
         super(id, firstname, lastname, dob, sex, cellNumber);
         this.taxCode = taxCode;
-        this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
     public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber,
@@ -45,11 +44,7 @@ public class PatientDto extends PersonDto{
                 dateNullController(patient.getDob()),
                 fromEnumToString(patient.getSex()),
                 patient.getCellNumber(),
-                patient.getTaxCode(),
-                patient.getMedicalExaminations()
-                        .stream()
-                        .map(MedicalExaminationDto::fromMedicalExamination)
-                        .collect(Collectors.toSet())
+                patient.getTaxCode()
         );
     }
 

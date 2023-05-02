@@ -25,12 +25,11 @@ public class DoctorDto extends PersonDto{
 
     public DoctorDto(long id, String firstname, String lastname, String dob,
                      String sex, String cellNumber, AddressDto address,
-                     String doctorCode, SpecializationDto specialization, Set<MedicalExaminationDto> medicalExaminationsDto) {
+                     String doctorCode, SpecializationDto specialization) {
         super(id, firstname, lastname, dob, sex, cellNumber);
         this.address = address;
         this.doctorCode = doctorCode;
         this.specialization = specialization;
-        this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
     public DoctorDto(long id, String firstname, String lastname, String dob,
@@ -53,11 +52,7 @@ public class DoctorDto extends PersonDto{
                 doctor.getCellNumber(),
                 AddressDto.fromAddress(doctor.getAddress()),
                 doctor.getDoctorCode(),
-                SpecializationDto.fromSpecialization(doctor.getSpecialization()),
-                doctor.getMedicalExaminations()
-                        .stream()
-                        .map(MedicalExaminationDto::fromMedicalExamination)
-                        .collect(Collectors.toSet())
+                SpecializationDto.fromSpecialization(doctor.getSpecialization())
         );
     }
 
