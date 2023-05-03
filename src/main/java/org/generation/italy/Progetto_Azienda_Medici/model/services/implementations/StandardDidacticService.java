@@ -66,6 +66,16 @@ public class StandardDidacticService implements AbstractDidacticService{
         return examinationRepository.findAllMedicalExaminationByPatientId(id);
     }
 
+    @Override
+    public void changeMedicalExaminationToNull(long id) {
+        examinationRepository.changeMedicalExaminationToNull(id);
+    }
+
+    @Override
+    public void changeMedicalExaminationToProgrammed(long id) {
+        examinationRepository.changeMedicalExaminationToProgrammed(id);
+    }
+
     //USER
     @Override
     public Optional<Long> findPersonIdByUserEmail(String email) {

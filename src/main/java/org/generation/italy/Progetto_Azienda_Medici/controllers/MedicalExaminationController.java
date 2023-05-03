@@ -37,6 +37,18 @@ public class MedicalExaminationController {
         return ResponseEntity.created(URI.create("api/auth/medExamination"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
     }
 
+    @PostMapping("/null/{id}")
+    public ResponseEntity<Void> changeMedicalExaminationToNull(@PathVariable long id){
+        didacticService.changeMedicalExaminationToNull(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/programmed/{id}")
+    public ResponseEntity<Void> changeMedicalExaminationToProgrammed(@PathVariable long id){
+        didacticService.changeMedicalExaminationToProgrammed(id);
+        return ResponseEntity.noContent().build();
+    }
+
     // Insert Doctor
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateMedicalExamination(@RequestBody MedicalExaminationDto examinationDto,

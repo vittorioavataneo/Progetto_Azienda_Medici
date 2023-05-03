@@ -19,6 +19,8 @@ public interface AbstractDidacticService {
     //MEDICAL EXAMINATION
     Iterable<MedicalExamination> findAllMedicalExaminationByDoctorId(long id);
     Iterable<MedicalExamination> findAllMedicalExaminationByPatientId(long id);
+    void changeMedicalExaminationToNull(long id);
+    void changeMedicalExaminationToProgrammed(long id);
 
     //USER
     Optional<Long> findPersonIdByUserEmail(String email);
