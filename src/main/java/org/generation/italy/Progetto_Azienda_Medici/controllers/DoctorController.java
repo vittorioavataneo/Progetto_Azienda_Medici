@@ -7,13 +7,13 @@ import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.Gene
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.abstractions.AbstractDidacticService;
 import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.GenericService;
-import org.generation.italy.Progetto_Azienda_Medici.model.services.implementations.StandardDidacticService;
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -67,6 +67,15 @@ public class DoctorController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/find/{id}")
+    public ResponseEntity<DoctorDto> findDoctorById(@PathVariable long id){
+        Optional<Doctor> op = genericServiceDoctor.findById(id);
+        if (op.isEmpty()){
+            return  ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(DoctorDto.fromDoctor(op.get()));
+    }
+
     // Find all doctors
     @GetMapping()
     public ResponseEntity<Iterable<DoctorDto>> findAllDoctors(){
@@ -76,10 +85,10 @@ public class DoctorController {
     }
 
     // Find Doctor by specialization
-    @GetMapping("/find/specializatioDoctor/{part}")
-    public ResponseEntity<Iterable<SimpleDoctorDto>> findDoctorBySpecialization(@PathVariable String part){
+    @GetMapping("/find/specializationDoctor/{part}")
+    public ResponseEntity<Iterable<DoctorDto>> findDoctorBySpecialization(@PathVariable String part){
         Iterable<Doctor> doctor = didacticService.findDoctorBySpecialization(part);
-        return ResponseEntity.ok().body(SimpleDoctorDto.fromSimpleDoctorIterable(doctor));
+        return ResponseEntity.ok().body(DoctorDto.fromDoctorIterable(doctor));
     }
 
     //Find Doctor by name

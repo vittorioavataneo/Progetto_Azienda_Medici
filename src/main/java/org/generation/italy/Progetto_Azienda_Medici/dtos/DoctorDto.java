@@ -7,6 +7,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Sex;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -25,12 +26,11 @@ public class DoctorDto extends PersonDto{
 
     public DoctorDto(long id, String firstname, String lastname, String dob,
                      String sex, String cellNumber, AddressDto address,
-                     String doctorCode, SpecializationDto specialization, Set<MedicalExaminationDto> medicalExaminationsDto) {
+                     String doctorCode, SpecializationDto specialization) {
         super(id, firstname, lastname, dob, sex, cellNumber);
         this.address = address;
         this.doctorCode = doctorCode;
         this.specialization = specialization;
-        this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
     public DoctorDto(long id, String firstname, String lastname, String dob,
@@ -53,11 +53,7 @@ public class DoctorDto extends PersonDto{
                 doctor.getCellNumber(),
                 AddressDto.fromAddress(doctor.getAddress()),
                 doctor.getDoctorCode(),
-                SpecializationDto.fromSpecialization(doctor.getSpecialization()),
-                doctor.getMedicalExaminations()
-                        .stream()
-                        .map(MedicalExaminationDto::fromMedicalExamination)
-                        .collect(Collectors.toSet())
+                SpecializationDto.fromSpecialization(doctor.getSpecialization())
         );
     }
 
@@ -73,10 +69,7 @@ public class DoctorDto extends PersonDto{
                 this.getAddress().toAddress(),
                 this.getDoctorCode(),
                 this.getSpecialization().toSpecialization(),
-                this.getMedicalExaminationsDto()
-                        .stream()
-                        .map(MedicalExaminationDto::toMedicalExamination)
-                        .collect(Collectors.toSet())
+                new HashSet<>()
         );
     }
 

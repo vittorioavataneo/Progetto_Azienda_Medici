@@ -7,6 +7,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 import org.generation.italy.Progetto_Azienda_Medici.security.user.User;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -24,10 +25,9 @@ public class PatientDto extends PersonDto{
     private Set<MedicalExaminationDto> medicalExaminationsDto;
 
     public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber,
-                      String taxCode, Set<MedicalExaminationDto> medicalExaminationsDto) {
+                      String taxCode) {
         super(id, firstname, lastname, dob, sex, cellNumber);
         this.taxCode = taxCode;
-        this.medicalExaminationsDto = medicalExaminationsDto;
     }
 
     public PatientDto(long id, String firstname, String lastname, String dob, String sex, String cellNumber,
@@ -45,11 +45,7 @@ public class PatientDto extends PersonDto{
                 dateNullController(patient.getDob()),
                 fromEnumToString(patient.getSex()),
                 patient.getCellNumber(),
-                patient.getTaxCode(),
-                patient.getMedicalExaminations()
-                        .stream()
-                        .map(MedicalExaminationDto::fromMedicalExamination)
-                        .collect(Collectors.toSet())
+                patient.getTaxCode()
         );
     }
 
@@ -63,10 +59,7 @@ public class PatientDto extends PersonDto{
                 fromStringToEnum(Sex.class, this.getSex()),
                 this.getUser(),
                 this.getTaxCode(),
-                this.getMedicalExaminationsDto()
-                        .stream()
-                        .map(MedicalExaminationDto::toMedicalExamination)
-                        .collect(Collectors.toSet())
+                new HashSet<>()
         );
     }
 

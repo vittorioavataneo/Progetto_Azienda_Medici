@@ -1,9 +1,6 @@
 package org.generation.italy.Progetto_Azienda_Medici.model.services.implementations;
 
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.AdminRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.DoctorRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.MedicalExaminationRepository;
-import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.PatientRepository;
+import org.generation.italy.Progetto_Azienda_Medici.model.data.abstractions.*;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Doctor;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.MedicalExamination;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.Patient;
@@ -23,16 +20,18 @@ public class StandardDidacticService implements AbstractDidacticService{
     private AdminRepository adminRepository;
     private MedicalExaminationRepository examinationRepository;
     private UserRepository userRepository;
+    private SpecializationRepository specializationRepository;
 
     @Autowired
     public StandardDidacticService(DoctorRepository doctorRepo, PatientRepository patientRepo,
                                    AdminRepository adminRepository, MedicalExaminationRepository examinationRepository,
-                                   UserRepository userRepository) {
+                                   UserRepository userRepository, SpecializationRepository specializationRepository) {
         this.doctorRepo = doctorRepo;
         this.patientRepo = patientRepo;
         this.adminRepository = adminRepository;
         this.examinationRepository = examinationRepository;
         this.userRepository = userRepository;
+        this.specializationRepository = specializationRepository;
     }
 
     //DOCTOR
@@ -67,10 +66,26 @@ public class StandardDidacticService implements AbstractDidacticService{
         return examinationRepository.findAllMedicalExaminationByPatientId(id);
     }
 
+    @Override
+    public void changeMedicalExaminationToNull(long id) {
+        examinationRepository.changeMedicalExaminationToNull(id);
+    }
+
+    @Override
+    public void changeMedicalExaminationToProgrammed(long id) {
+        examinationRepository.changeMedicalExaminationToProgrammed(id);
+    }
+
     //USER
     @Override
     public Optional<Long> findPersonIdByUserEmail(String email) {
         return userRepository.findPersonIdByUserEmail(email);
+    }
+
+    //SPECIALIZATION
+    @Override
+    public Optional<Specialization> findSpecializationBySpecializationName(String specializationName) {
+        return specializationRepository.findBySpecializationName(specializationName);
     }
 
 }

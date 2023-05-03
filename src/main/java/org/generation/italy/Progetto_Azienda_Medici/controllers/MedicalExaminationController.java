@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -34,6 +35,18 @@ public class MedicalExaminationController {
         MedicalExamination mD = medicalExaminationDto.toMedicalExamination();
         var resultMedicalExamination = medicalExaminationService.create(mD);
         return ResponseEntity.created(URI.create("api/auth/medExamination"+mD.getId())).body(MedicalExaminationDto.fromMedicalExamination(resultMedicalExamination));
+    }
+
+    @PostMapping("/null/{id}")
+    public ResponseEntity<Void> changeMedicalExaminationToNull(@PathVariable long id){
+        didacticService.changeMedicalExaminationToNull(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/programmed/{id}")
+    public ResponseEntity<Void> changeMedicalExaminationToProgrammed(@PathVariable long id){
+        didacticService.changeMedicalExaminationToProgrammed(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Insert Doctor
@@ -63,6 +76,16 @@ public class MedicalExaminationController {
         return ResponseEntity.noContent().build();
     }
 
+    // Delete Patient medical examination
+    @GetMapping("/find/{id}")
+    public ResponseEntity<MedicalExaminationDto> findMedicalExamination(@PathVariable long id){
+        Optional<MedicalExamination> ome = medicalExaminationService.findById(id);
+        if(ome.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(MedicalExaminationDto.fromMedicalExamination(ome.get()));
+    }
+
     // Find Examination by Doctor id
     @GetMapping("/doctor/{id}")
     public ResponseEntity<Iterable<MedicalExaminationDto>> findAllDoctorMedicalExamination(@PathVariable long id){
@@ -73,7 +96,7 @@ public class MedicalExaminationController {
     // Find Examination by Patient id
     @GetMapping("/patient/{id}")
     public ResponseEntity<Iterable<MedicalExaminationDto>> findAllPatientMedicalExamination(@PathVariable long id){
-        Iterable<MedicalExamination> examinations = didacticService.findAllMedicalExaminationByDoctorId(id);
+        Iterable<MedicalExamination> examinations = didacticService.findAllMedicalExaminationByPatientId(id);
         return ResponseEntity.ok().body(MedicalExaminationDto.fromExaminationIterable(examinations));
     }
 

@@ -1,5 +1,6 @@
 package org.generation.italy.Progetto_Azienda_Medici.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,12 +15,16 @@ import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtili
 @Setter
 @NoArgsConstructor
 public class MedicalExaminationDto {
+
     private long id;
     private DoctorDto doctorDto;
     private PatientDto patientDto;
+    private String doctorName;
+    private String patientName;
     private String reservationDate;
     private String contact;
     private SpecializationDto specializationDto;
+    private String specialization;
     private String payment;
     private String examinationPackage;
     private String note;
@@ -27,13 +32,31 @@ public class MedicalExaminationDto {
     private Boolean billing;
     private String state;
 
+    public MedicalExaminationDto(long id, String doctorName, String patientName, String reservationDate,
+                                 String contact, String specialization, String payment,
+                                 String examinationPackage, String note, String paymentNote,
+                                 Boolean billing, String state) {
+        this.id = id;
+        this.doctorName = doctorName;
+        this.patientName = patientName;
+        this.reservationDate = reservationDate;
+        this.contact = contact;
+        this.specialization = specialization;
+        this.payment = payment;
+        this.examinationPackage = examinationPackage;
+        this.note = note;
+        this.paymentNote = paymentNote;
+        this.billing = billing;
+        this.state = state;
+    }
+
     public MedicalExaminationDto(long id, DoctorDto doctorDto, PatientDto patientDto, String reservationDate,
                                  String contact, SpecializationDto specializationDto, String payment,
                                  String examinationPackage, String note, String paymentNote,
                                  Boolean billing, String state) {
         this.id = id;
-        this.doctorDto = doctorDto;
-        this.patientDto = patientDto;
+        this.doctorDto=doctorDto;
+        this.patientDto=patientDto;
         this.reservationDate = reservationDate;
         this.contact = contact;
         this.specializationDto = specializationDto;
@@ -48,11 +71,11 @@ public class MedicalExaminationDto {
     public static MedicalExaminationDto fromMedicalExamination(MedicalExamination me) {
         return new MedicalExaminationDto(
                 me.getId(),
-                DoctorDto.fromDoctor(me.getDoctor()),
-                PatientDto.fromPatient(me.getPatient()),
+                (me.getDoctor().getFirstname() + " "+me.getDoctor().getLastname()),
+                (me.getPatient().getFirstname() + " "+me.getPatient().getLastname()),
                 dateNullController(me.getReservationDate()),
                 fromEnumToString(me.getContact()),
-                SpecializationDto.fromSpecialization(me.getSpecialization()),
+                me.getSpecialization().getSpecializationName(),
                 fromEnumToString(me.getPayment()),
                 fromEnumToString(me.getExaminationPackage()),
                 me.getNote(),
