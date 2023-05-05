@@ -100,4 +100,11 @@ public class MedicalExaminationController {
         return ResponseEntity.ok().body(MedicalExaminationDto.fromExaminationIterable(examinations));
     }
 
+    // Find Examination by Patient id
+    @GetMapping("/patient/name/{name}/{id}")
+    public ResponseEntity<Iterable<MedicalExaminationDto>> findAllPatientMedicalExamination(@PathVariable String name, @PathVariable long id){
+        Iterable<MedicalExamination> examinations = didacticService.findAllMedicalExaminationByPatientNameOrSurnameIgnoreCase(name, id);
+        return ResponseEntity.ok().body(MedicalExaminationDto.fromExaminationIterable(examinations));
+    }
+
 }

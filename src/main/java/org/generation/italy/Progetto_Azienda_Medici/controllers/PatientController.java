@@ -84,9 +84,9 @@ public class PatientController {
 
 
     //find patient by name
-    @GetMapping("/find/patient/name/{part}")
-    public ResponseEntity<Iterable<PatientDto>> findPatientByName(@PathVariable String part){
-        Iterable<Patient> pat = didacticService.findPatientByName(part);
+    @GetMapping("/find/patient/name/{part}/{id}")
+    public ResponseEntity<Iterable<PatientDto>> findPatientByName(@PathVariable String part, @PathVariable long id){
+        Iterable<Patient> pat = didacticService.findPatientByName(part, id);
         return ResponseEntity.ok().body(PatientDto.fromPatientIterable(pat));
     }
 

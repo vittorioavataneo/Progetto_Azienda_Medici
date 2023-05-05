@@ -13,12 +13,13 @@ public interface AbstractDidacticService {
     Iterable<Doctor> findDoctorBySpecialization(String part);
 
     //PATIENT
-    Iterable<Patient> findPatientByName(String part);
+    Iterable<Patient> findPatientByName(String part, long id);
     Iterable<Patient> findAllPatientByDoctorId(long id);
 
     //MEDICAL EXAMINATION
     Iterable<MedicalExamination> findAllMedicalExaminationByDoctorId(long id);
     Iterable<MedicalExamination> findAllMedicalExaminationByPatientId(long id);
+    Iterable<MedicalExamination> findAllMedicalExaminationByPatientNameOrSurnameIgnoreCase(String name, long id);
     void changeMedicalExaminationToNull(long id);
     void changeMedicalExaminationToProgrammed(long id);
 
