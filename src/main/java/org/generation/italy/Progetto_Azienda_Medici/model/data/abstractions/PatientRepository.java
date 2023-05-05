@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 public interface PatientRepository extends GenericRepository<Patient> {
     @Query("""
             select p
-            from Patient p
-            where p.firstname like %:part% or p.lastname like %:part%
+            from MedicalExamination m join m.patient p
+            where m.doctor.id = :id
+                and (lower(p.firstname) like lower(concat('%', :part, '%'))
+                or lower(p.lastname) like lower(concat('%', :part, '%')))
             """)
-    Iterable<Patient> findByName(String part);
+    Iterable<Patient> findByName(String part, long id);
 
     @Query("""
             select distinct m.patient

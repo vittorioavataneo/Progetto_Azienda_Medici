@@ -47,7 +47,7 @@ public class StandardDidacticService implements AbstractDidacticService{
 
     //PATIENT
     @Override
-    public Iterable<Patient> findPatientByName(String part) { return patientRepo.findByName(part); }
+    public Iterable<Patient> findPatientByName(String part, long id) { return patientRepo.findByName(part, id); }
 
     @Override
     public Iterable<Patient> findAllPatientByDoctorId(long id) {
@@ -64,6 +64,11 @@ public class StandardDidacticService implements AbstractDidacticService{
     @Override
     public Iterable<MedicalExamination> findAllMedicalExaminationByPatientId(long id) {
         return examinationRepository.findAllMedicalExaminationByPatientId(id);
+    }
+
+    @Override
+    public Iterable<MedicalExamination> findAllMedicalExaminationByPatientNameOrSurnameIgnoreCase(String name, long id) {
+        return examinationRepository.findAllMedicalExaminationByPatientNameOrSurnameIgnoreCase(name, id);
     }
 
     @Override
