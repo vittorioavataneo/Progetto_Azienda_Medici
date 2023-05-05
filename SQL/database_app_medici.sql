@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS app_user, token, persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
+DROP TABLE IF EXISTS codice_medici, app_user, token, persona, visita_specialistica, indirizzo, medico, paziente, visita_medica, admin;
 DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato, role, token_type;
 
 
@@ -13,6 +13,21 @@ CREATE TYPE token_type              AS ENUM ('BEARER');
 
 
 --TABLE
+
+--Tabella Codice Medici
+CREATE TABLE codice_medici (
+  id_codice_medici      BIGINT          NOT NULL,
+  codice                VARCHAR(5)      NOT NULL,
+
+  CONSTRAINT PK_codice_medici PRIMARY KEY(id_codice_medici)
+
+  );
+  CREATE SEQUENCE id_codice_medici_sequence
+       start 1
+       increment 1
+       OWNED BY codice_medici.id_codice_medici;
+
+
 --Tabella user_p
 CREATE TABLE app_user (
     id_app_user     INT             NOT NULL,

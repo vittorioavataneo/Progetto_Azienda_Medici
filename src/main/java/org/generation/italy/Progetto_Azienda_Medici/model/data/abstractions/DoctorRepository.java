@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DoctorRepository extends GenericRepository<Doctor> {
 
-    @Query("""
+        @Query("""
             select d
             from Doctor d
             where d.firstname like %:part% or d.lastname like %:part%
             """)
-    Iterable<Doctor> findByName(String part);
+        Iterable<Doctor> findByName(String part);
 
     @Query("""
             select d
