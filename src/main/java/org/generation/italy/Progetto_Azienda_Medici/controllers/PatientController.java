@@ -98,4 +98,13 @@ public class PatientController {
         return ResponseEntity.ok().body(PatientDto.fromPatientIterable(patientIterable));
     }
 
+    @GetMapping("/find/patient/examination/{id}")
+    public ResponseEntity<PatientDto> findPatientByExamId(@PathVariable long id){
+        Optional<Patient> op = didacticService.findPatientByExamId(id);
+        if (op.isEmpty()){
+            return  ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(PatientDto.fromPatient(op.get()));
+    }
+
 }

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.util.HashSet;
+import java.util.Optional;
 
 import static org.generation.italy.Progetto_Azienda_Medici.utilities.StringUtilities.*;
 
@@ -91,12 +92,6 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
-        Specialization specialization = specializationRepository.save(
-                new Specialization(
-                        0,
-                        request.getSpecializationName()
-                )
-        );
 
         Address address = addressRepository.save(
                 new Address(
@@ -109,21 +104,47 @@ public class AuthenticationService {
                 )
         );
 
-        doctorRepository.save(
-                new Doctor(
-                        0,
-                        request.getFirstname(),
-                        request.getLastname(),
-                        fromJSONString(request.getDob()),
-                        request.getCellNumber(),
-                        fromStringToEnum(Sex.class, request.getSex()),
-                        user,
-                        address,
-                        request.getDoctorCode(),
-                        specialization,
-                        new HashSet<>()
-                )
-        );
+        Optional<Specialization> optionalSpecialization = specializationRepository.findBySpecializationName(request.getSpecializationName());
+        if(optionalSpecialization.isEmpty()) {
+            Specialization specialization = specializationRepository.save(
+                    new Specialization(
+                            0,
+                            request.getSpecializationName()
+                    )
+            );
+            doctorRepository.save(
+                    new Doctor(
+                            0,
+                            request.getFirstname(),
+                            request.getLastname(),
+                            fromJSONString(request.getDob()),
+                            request.getCellNumber(),
+                            fromStringToEnum(Sex.class, request.getSex()),
+                            user,
+                            address,
+                            request.getDoctorCode(),
+                            specialization,
+                            new HashSet<>()
+                    )
+            );
+        }else {
+            doctorRepository.save(
+                    new Doctor(
+                            0,
+                            request.getFirstname(),
+                            request.getLastname(),
+                            fromJSONString(request.getDob()),
+                            request.getCellNumber(),
+                            fromStringToEnum(Sex.class, request.getSex()),
+                            user,
+                            address,
+                            request.getDoctorCode(),
+                            optionalSpecialization.get(),
+                            new HashSet<>()
+                    )
+            );
+        }
+
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)

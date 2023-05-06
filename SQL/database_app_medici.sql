@@ -4,7 +4,7 @@ DROP TYPE IF EXISTS sesso, tipo_di_contatto, pacchetto, pagamento, stato, role, 
 
 --TYPE ENUM
 CREATE TYPE sesso					AS ENUM ('UOMO', 'DONNA', 'NON_BINARIO');
-CREATE TYPE tipo_di_contatto		AS ENUM ('INTERVISTA');
+CREATE TYPE tipo_di_contatto		AS ENUM ('INTERVISTA', 'PREVENTIVA', 'PERIODICA', 'VISITA', 'SPECIALISTICA', 'URGENTE');
 CREATE TYPE pacchetto               AS ENUM ('CORPO_MENTE', 'CORPO', 'MENTE');
 CREATE TYPE pagamento               AS ENUM ('BONIFICO', 'SATISPAY', 'CARTA_DI_CREDITO_O_DEBITO', 'PAYPAL', 'CONTANTI');
 CREATE TYPE stato                   AS ENUM ('DA_PROGRAMMARE', 'PROGRAMMATO', 'FATTO', 'ANNULLATO');
@@ -21,11 +21,11 @@ CREATE TABLE codice_medici (
 
   CONSTRAINT PK_codice_medici PRIMARY KEY(id_codice_medici)
 
-  );
-  CREATE SEQUENCE id_codice_medici_sequence
-       start 1
-       increment 1
-       OWNED BY codice_medici.id_codice_medici;
+);
+CREATE SEQUENCE id_codice_medici_sequence
+   start 1
+   increment 1
+   OWNED BY codice_medici.id_codice_medici;
 
 
 --Tabella user_p

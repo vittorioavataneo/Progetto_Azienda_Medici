@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 public interface DoctorCodeRepository extends GenericRepository<DoctorCode> {
 
     @Query("""
-    select case when count(dc) > 0 then true else false end
+    select case when count(dc) = 1 then true else false end
     from DoctorCode dc
-    where dc.codice = :part
+    where dc.code = :part
     """)
     boolean verifyCode(String part);
 }

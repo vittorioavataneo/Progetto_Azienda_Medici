@@ -54,6 +54,11 @@ public class StandardDidacticService implements AbstractDidacticService{
         return patientRepo.findAllPatientByDoctorId(id);
     }
 
+    @Override
+    public Optional<Patient> findPatientByExamId(long id) {
+        return patientRepo.findPatientByExamId(id);
+    }
+
 
     //MEDICAL EXAMINATION
     @Override

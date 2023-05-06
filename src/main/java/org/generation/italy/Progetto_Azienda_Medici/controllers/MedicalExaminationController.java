@@ -9,6 +9,7 @@ import org.generation.italy.Progetto_Azienda_Medici.model.services.implementatio
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -49,7 +50,6 @@ public class MedicalExaminationController {
         return ResponseEntity.noContent().build();
     }
 
-    // Insert Doctor
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateMedicalExamination(@RequestBody MedicalExaminationDto examinationDto,
                                              @PathVariable long id) {
