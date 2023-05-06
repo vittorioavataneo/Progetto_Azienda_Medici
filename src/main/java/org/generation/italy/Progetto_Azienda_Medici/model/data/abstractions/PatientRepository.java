@@ -25,7 +25,7 @@ public interface PatientRepository extends GenericRepository<Patient> {
     @Query("""
             select distinct m.patient
             from MedicalExamination m
-            where m.patient.id = :id
+            where m.id = :id
             """)
     Optional<Patient> findPatientByExamId(long id);
 }

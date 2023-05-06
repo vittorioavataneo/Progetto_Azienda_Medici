@@ -3,6 +3,8 @@ package org.generation.italy.Progetto_Azienda_Medici.utilities;
 import org.generation.italy.Progetto_Azienda_Medici.model.entities.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class StringUtilities {
     public static boolean isNullOrEmpty(String s){
@@ -17,6 +19,17 @@ public class StringUtilities {
     }
 
     public static String dateNullController(LocalDate date){
+        return date != null ? date.toString() : "";
+    }
+
+    public static LocalDateTime parseLocalDateTime(String s){
+        if(isNullOrEmpty(s)){
+            return null;
+        }
+        return LocalDateTime.parse(s);
+    }
+
+    public static String formatLocalDateTime(LocalDateTime date){
         return date != null ? date.toString() : "";
     }
 
